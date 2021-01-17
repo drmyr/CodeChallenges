@@ -1,4 +1,4 @@
-package general;
+package dfsbfs;
 
 import java.util.*;
 import java.util.function.BiConsumer;

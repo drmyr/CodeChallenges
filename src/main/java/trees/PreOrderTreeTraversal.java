@@ -6,7 +6,7 @@ import java.util.Stack;
 
 public class PreOrderTreeTraversal {
 
-    public static void preOrder(final BinaryNode root) {
+    public static void preOrderTraversalImperative(final BinaryNode root) {
         final Stack<BinaryNode> stack = new Stack<>();
         stack.push(root);
         while(!stack.isEmpty()) {

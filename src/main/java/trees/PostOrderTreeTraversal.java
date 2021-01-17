@@ -8,7 +8,7 @@ import java.util.Stack;
 
 public class PostOrderTreeTraversal {
 
-    public static void postOrder(final BinaryNode root) {
+    public static void postOrderTraversalImperative(final BinaryNode root) {
         final Set<Integer> visited = new HashSet<>();
         final Stack<BinaryNode> stack = new Stack<>();
         stack.push(root);

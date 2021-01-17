@@ -6,7 +6,7 @@ import java.util.Stack;
 
 public class InOrderTreeTraversal {
 
-    public static void inOrder(final BinaryNode root) {
+    public static void inOrderTraversalImperative(final BinaryNode root) {
         final Stack<BinaryNode> stack = new Stack<>();
 
         BinaryNode current = root;
