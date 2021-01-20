@@ -33,6 +33,9 @@ public class FreshPromotion {
                     if(WILDCARD.equals(codeList[groupIndex][i]) || codeList[groupIndex][i].equals(shoppingCart[localShoppingCartIndex])) {
                         localShoppingCartIndex++;
                     } else {
+                        // If the next item did not match, then the group will not match.
+                        // As such, go to the next item in the shopping cart, and start the search over
+                        // by breaking to the outter while loop.
                         shoppingCartIndex++;
                         break OUTTER;
                     }
