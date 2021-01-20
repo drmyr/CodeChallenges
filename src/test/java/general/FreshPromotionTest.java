@@ -14,10 +14,10 @@ class FreshPromotionTest {
     @Test
     void freshPromotionTest() {
         final String[][] codeGroup1 = {{ "apple", "apple" }, {"banana", "anything", "banana" }};
-        final String[] shoppingCart1 = { "orange", "apple", "apple", "banana", "orange", "banana"},
-                       shoppingCart2 = { "apple", "apple", "orange", "orange", "banana", "apple", "banana", "banana"},
+        final String[] shoppingCart1 = { "orange", "apple", "apple", "banana", "orange", "banana" },
+                       shoppingCart2 = { "apple", "apple", "orange", "orange", "banana", "apple", "banana", "banana" },
                        shoppingCart3 = { "banana", "orange", "banana", "apple", "apple" },
-                       shoppingCart4 = { "apple", "banana", "apple", "banana", "orange", "banana"},
+                       shoppingCart4 = { "apple", "banana", "apple", "banana", "orange", "banana" },
                        shoppingCart5 = { "apple", "apple", "apple", "banana" };
 
         for(final String[] cart : List.of(shoppingCart1, shoppingCart2)) {
