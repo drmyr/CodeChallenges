@@ -2,7 +2,7 @@ package dfsbfs;
 
 import java.util.*;
 import java.util.function.BiConsumer;
-import java.util.function.BiFunction;
+import java.util.function.BiPredicate;
 
 public class DistinctIslandCount {
 
@@ -29,7 +29,7 @@ public class DistinctIslandCount {
 
             @Override
             public int hashCode() {
-                return Objects.hash(this.bodyCoords);
+                return this.bodyCoords.hashCode();
             }
 
             @Override
@@ -41,7 +41,7 @@ public class DistinctIslandCount {
         final Set<Island> islands = new HashSet<>();
         final boolean[][] visited = new boolean[map.length][map[0].length];
         final Integer[][] dirs = {{0, 1}, {1, 0}, {0, -1}, {-1, 0}};
-        final BiFunction<Integer, Integer, Boolean> canEnter = (final Integer row, final Integer col) ->
+        final BiPredicate<Integer, Integer> canEnter = (final Integer row, final Integer col) ->
                 row >= 0 && row < rowLength && col >= 0 && col < colLength && map[row][col] == 1 && !visited[row][col];
 
         final BiConsumer<Integer, Integer> landFound = (final Integer row, final Integer col) -> {
@@ -56,7 +56,7 @@ public class DistinctIslandCount {
                 for(final Integer[] dir : dirs) {
                     final Integer newRow = row + dir[0];
                     final Integer newCol = col + dir[1];
-                    if(canEnter.apply(newRow, newCol)) {
+                    if(canEnter.test(newRow, newCol)) {
                         stack.push(new Integer[] {newRow, newCol});
                     }
                 }
@@ -66,7 +66,7 @@ public class DistinctIslandCount {
 
         for(Integer row = 0; row < rowLength; row++) {
             for(Integer col = 0; col < colLength; col++) {
-                if(canEnter.apply(row, col)) {
+                if(canEnter.test(row, col)) {
                     landFound.accept(row, col);
                 }
             }
