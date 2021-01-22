@@ -9,8 +9,12 @@ public class FreshPromotion {
       keeps the runtime O(n) in the best case as we can effectively just iterate through the shopping cart once.
 
       We iterate over the contents of the shopping cart. For each shopping cart item, we check to see if it
-      matches the beginning of the next group in the codeList. If it matches, then see if the items ahead of it match the
+      matches the beginning of the next group in the `codeList`. If it matches, then see if the items ahead of it match the
       rest of the current group as well, otherwise move to the next item and start again.
+
+      The items ahead in the shopping cart matching is the best case, because once the matching is complete we can
+      effectively just move our `shoppingCartIndex` pointer to the index after wherever the match completed at
+      (meaning we do not have to do O(n^2) comparisons)
      */
     public static int freshPromotion(final String[][] codeList, final String[] shoppingCart) {
         final String WILDCARD = "anything";
