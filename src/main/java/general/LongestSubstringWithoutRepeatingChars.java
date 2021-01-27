@@ -1,6 +1,6 @@
 package general;
 
-public class LongestSubstringWihtoutRepeatingChars {
+public class LongestSubstringWithoutRepeatingChars {
 
     /*
      https://leetcode.com/problems/longest-substring-without-repeating-characters
@@ -10,10 +10,8 @@ public class LongestSubstringWihtoutRepeatingChars {
 
         final int[] map = new int[256];
 
-        int longest = 1;
+        int longest = 1, tail = 0, head = 0;
 
-        int tail = 0;
-        int head = 0;
         while(head < str.length()) {
             if(map[str.charAt(head)] == 0) {
                 map[str.charAt(head)]++;
