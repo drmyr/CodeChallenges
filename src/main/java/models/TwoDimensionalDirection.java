@@ -1,5 +1,5 @@
 package models;
 
 public enum TwoDimensionalDirection {
-    UP, DOWN, LEFT, RIGHT;
+    UP, DOWN, LEFT, RIGHT
 }

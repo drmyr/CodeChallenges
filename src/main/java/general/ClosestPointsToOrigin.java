@@ -1,9 +1,9 @@
 package general;
 
 import java.util.PriorityQueue;
-import java.util.function.Function;
+import java.util.function.ToDoubleFunction;
 
-import static java.util.Comparator.comparing;
+import static java.util.Comparator.comparingDouble;
 
 public class ClosestPointsToOrigin {
 
@@ -12,10 +12,10 @@ public class ClosestPointsToOrigin {
      */
     public static int[][] kClosest(final int[][] points, int K) {
 
-        final Function<int[], Double> euclideanDistance = (final int[] point) ->
+        final ToDoubleFunction<int[]> euclideanDistance = (final int[] point) ->
                 Math.sqrt(Math.pow(point[0], 2) + Math.pow(point[1], 2));
 
-        final PriorityQueue<int[]> heap = new PriorityQueue<>(comparing(euclideanDistance));
+        final PriorityQueue<int[]> heap = new PriorityQueue<>(comparingDouble(euclideanDistance));
 
         for(final int[] point : points) {
             heap.offer(point);
