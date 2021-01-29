@@ -1,4 +1,4 @@
-package trees;
+package dp;
 
 import org.junit.jupiter.api.Test;
 
@@ -8,7 +8,7 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-import static trees.JobScheduleMinDifficulty.*;
+import static dp.JobScheduleMinDifficulty.*;
 
 class JobScheduleMinDifficultyTest {
 

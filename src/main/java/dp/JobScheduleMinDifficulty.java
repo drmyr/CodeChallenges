@@ -1,8 +1,6 @@
-package trees;
+package dp;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.function.*;
 
 public class JobScheduleMinDifficulty {
@@ -14,20 +12,20 @@ public class JobScheduleMinDifficulty {
 
      Imperatively creates all possible job divisions for the number of given days.
     */
-    public static int minDifficultyTooSlow(final int[] jobDifficulty, final int days) {
-        if(jobDifficulty.length < days) return -1;
-        if(jobDifficulty.length == days) return Arrays.stream(jobDifficulty).reduce(0, Integer::sum);
+    public static int minDifficultyTooSlow(final int[] jobDifficulties, final int days) {
+        if(jobDifficulties.length < days) return -1;
+        if(jobDifficulties.length == days) return Arrays.stream(jobDifficulties).reduce(0, Integer::sum);
 
         // TODO this should be optimized into a Max Range Query for better runtime.
         final Function<int[], Integer> findMax = (final int[] range) -> {
             int max = 0;
             for(int i = range[0]; i <= range[1]; i++) {
-                max = Math.max(max, jobDifficulty[i]);
+                max = Math.max(max, jobDifficulties[i]);
             }
             return max;
         };
 
-        if(days == 1) return findMax.apply(new int[] {0, (jobDifficulty.length - 1)});
+        if(days == 1) return findMax.apply(new int[] {0, (jobDifficulties.length - 1)});
 
         // store a range as a "tuple", consisting of the current range start (range[0], mutable value),
         // the current range end (range[1], also mutable), and the day at which this range will
@@ -39,9 +37,9 @@ public class JobScheduleMinDifficulty {
         final int[][] ranges = new int[days][];
         for(int i = 0; i < ranges.length; i++) {
             if(i == (ranges.length - 1)) {
-                ranges[i] = new int[] {i, (jobDifficulty.length - 1), (jobDifficulty.length - days + i)};
+                ranges[i] = new int[] {i, (jobDifficulties.length - 1), (jobDifficulties.length - days + i)};
             } else {
-                ranges[i] = new int[] {i, i, jobDifficulty.length - days + i};
+                ranges[i] = new int[] {i, i, jobDifficulties.length - days + i};
             }
         }
 
@@ -120,54 +118,69 @@ public class JobScheduleMinDifficulty {
 
       https://leetcode.com/problems/minimum-difficulty-of-a-job-schedule/discuss/490316/JavaC++Python3-DP-O(nd)-Solution/811816
      */
-//    public static int minDiff(int[] jobDifficulty, int D) {
-//        final int N = jobDifficulty.length;
-//        if(N < D) return -1;
-//        int[][] dp = new int[D][N];
-//
-//        dp[0][0] = jobDifficulty[0];
-//        for(int j = 1; j < N; ++j){
-//            dp[0][j] = Math.max(jobDifficulty[j], dp[0][j - 1]);
-//        }
-//
-//        for(int d = 1; d < D; ++d){
-//            for(int len = d; len < N; ++len){
-//                int localMax = jobDifficulty[len];
-//                dp[d][len] = Integer.MAX_VALUE;
-//                for(int schedule = len; schedule >= d; --schedule){
-//                    localMax = Math.max(localMax, jobDifficulty[schedule]);
-//                    dp[d][len] = Math.min(dp[d][len], dp[d - 1][schedule - 1] + localMax);
-//                }
-//            }
-//        }
-//
-//        return dp[D - 1][N - 1];
-//    }
+    public static int minDifficultyDP(final int[] jobDifficulties, final int days) {
+        final int numberOfJobs = jobDifficulties.length;
 
-//    public int minDifficulty(int[] A, int D) {
-//        int n = A.length;
-//        if (n < D) return -1;
-//        int[] dp = new int[n], dp2 = new int[n], tmp;
-//        Arrays.fill(dp, 1000);
-//        Deque<Integer> stack = new ArrayDeque<Integer>();
-//
-//        for (int d = 0; d < D; ++d) {
-//            stack.clear();
-//            for (int i = d; i < n; i++) {
-//                dp2[i] = i > 0 ? dp[i - 1] + A[i] : A[i];
-//                while (!stack.isEmpty() && A[stack.peek()] <= A[i]) {
-//                    int j = stack.pop();
-//                    dp2[i] = Math.min(dp2[i], dp2[j] - A[j] + A[i]);
-//                }
-//                if (!stack.isEmpty()) {
-//                    dp2[i] = Math.min(dp2[i], dp2[stack.peek()]);
-//                }
-//                stack.push(i);
-//            }
-//            tmp = dp;
-//            dp = dp2;
-//            dp2 = tmp;
-//        }
-//        return dp[n - 1];
-//    }
+        if(numberOfJobs < days) return -1;
+
+        final int[][] dp = new int[days][numberOfJobs];
+
+        dp[0][0] = jobDifficulties[0];
+        for(int job = 1; job < numberOfJobs; ++job) {
+            dp[0][job] = Math.max(jobDifficulties[job], dp[0][job - 1]);
+        }
+
+        for(int day = 1; day < days; ++day){
+            for(int len = day; len < numberOfJobs; ++len) {
+                int localMax = jobDifficulties[len];
+                dp[day][len] = Integer.MAX_VALUE;
+                for(int schedule = len; schedule >= day; --schedule){
+                    localMax = Math.max(localMax, jobDifficulties[schedule]);
+                    dp[day][len] = Math.min(dp[day][len], dp[day - 1][schedule - 1] + localMax);
+                }
+            }
+        }
+
+        return dp[days - 1][numberOfJobs - 1];
+    }
+
+    /*
+      Not mine, just wanted the example handy.
+
+      https://leetcode.com/problems/minimum-difficulty-of-a-job-schedule/discuss/490316/JavaC++Python3-DP-O(nd)-Solution/811816
+     */
+    public static int minDifficultyStack(final int[] jobDifficulties, final int days) {
+        final int numberOfJobs = jobDifficulties.length;
+
+        if (numberOfJobs < days) return -1;
+
+        int[] dp = new int[numberOfJobs], dp2 = new int[numberOfJobs], tmp;
+        Arrays.fill(dp, 1000);
+
+        final Deque<Integer> stack = new ArrayDeque<>();
+
+        for (int day = 0; day < days; ++day) {
+            stack.clear();
+            for (int i = day; i < numberOfJobs; i++) {
+                if(i > 0) {
+                    dp2[i] = dp[i - 1] + jobDifficulties[i];
+                } else {
+                    dp2[i] = jobDifficulties[i];
+                }
+
+                while (!stack.isEmpty() && jobDifficulties[stack.peek()] <= jobDifficulties[i]) {
+                    final int j = stack.pop();
+                    dp2[i] = Math.min(dp2[i], dp2[j] - jobDifficulties[j] + jobDifficulties[i]);
+                }
+                if (!stack.isEmpty()) {
+                    dp2[i] = Math.min(dp2[i], dp2[stack.peek()]);
+                }
+                stack.push(i);
+            }
+            tmp = dp;
+            dp = dp2;
+            dp2 = tmp;
+        }
+        return dp[numberOfJobs - 1];
+    }
 }
