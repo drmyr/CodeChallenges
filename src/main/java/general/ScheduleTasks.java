@@ -1,7 +1,8 @@
 package general;
 
-import java.util.Comparator;
 import java.util.PriorityQueue;
+
+import static java.util.Comparator.reverseOrder;
 
 public class ScheduleTasks {
 
@@ -9,7 +10,7 @@ public class ScheduleTasks {
      https://aonecode.com/interview-question/schedule-tasks
      */
     public static int minTimeToFinish(final int num, final int[] powers, int taskLoad) {
-        final PriorityQueue<Integer> heap = new PriorityQueue<>(Comparator.reverseOrder());
+        final PriorityQueue<Integer> heap = new PriorityQueue<>(reverseOrder());
         for(final int power : powers) {
             heap.offer(power);
         }

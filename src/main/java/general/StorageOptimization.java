@@ -9,7 +9,6 @@ public class StorageOptimization {
      */
     public static int largestSpace(final int colDivisions, final int rowDivisions, final int[] colRemovals, final int[] rowRemovals) {
         final Function<int[], Integer> longestRun = (final int[] removals) -> {
-            if(removals.length == 1) return 2;
             int tail = 0;
             int head = 1;
             int longest = 1;
