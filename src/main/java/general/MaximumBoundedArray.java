@@ -23,6 +23,6 @@ public class MaximumBoundedArray {
             span.addFirst(decrementingBackwardBound--);
         }
 
-        return span.toArray(new Integer[0]);
+        return span.toArray(Integer[]::new);
     }
 }

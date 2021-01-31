@@ -117,6 +117,10 @@ public class JobScheduleMinDifficulty {
       Not mine, just wanted the example handy.
 
       https://leetcode.com/problems/minimum-difficulty-of-a-job-schedule/discuss/490316/JavaC++Python3-DP-O(nd)-Solution/811816
+
+      The fact that this logic is correct is proof that dynamic programming is nothing but witchcraft and sorcery.
+      And not that innocent Disney's Sword In The Stone kind of witchcraft and sorcery. Nope. I mean LOTR, GOT,
+      Harry Potter but towards the end of the series when he gets dark and mean kind of witchcraft and sorcery.
      */
     public static int minDifficultyDP(final int[] jobDifficulties, final int days) {
         final int numberOfJobs = jobDifficulties.length;
@@ -130,12 +134,14 @@ public class JobScheduleMinDifficulty {
             dp[0][job] = Math.max(jobDifficulties[job], dp[0][job - 1]);
         }
 
-        for(int day = 1; day < days; ++day){
+        for(int day = 1; day < days; ++day) {
             for(int len = day; len < numberOfJobs; ++len) {
                 int localMax = jobDifficulties[len];
                 dp[day][len] = Integer.MAX_VALUE;
-                for(int schedule = len; schedule >= day; --schedule){
+                for(int schedule = len; schedule >= day; --schedule) {
+                    // max because the difficulty equals the most difficult job done today.
                     localMax = Math.max(localMax, jobDifficulties[schedule]);
+                    // min because we want the minimum difficulty.
                     dp[day][len] = Math.min(dp[day][len], dp[day - 1][schedule - 1] + localMax);
                 }
             }

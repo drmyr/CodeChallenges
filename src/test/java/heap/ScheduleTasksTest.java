@@ -1,8 +1,8 @@
-package general;
+package heap;
 
 import org.junit.jupiter.api.Test;
 
-import static general.ScheduleTasks.minTimeToFinish;
+import static heap.ScheduleTasks.minTimeToFinish;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;

@@ -1,11 +1,11 @@
-package general;
+package heap;
 
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 
-import static general.ClosestPointsToOrigin.kClosest;
+import static heap.ClosestPointsToOrigin.kClosest;
 
 class ClosestPointsToOriginTest {
 
