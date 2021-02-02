@@ -18,23 +18,23 @@ public class FiveStarSellers {
             final double currentRating = ((double)arr[0] / (double)arr[1]);
             final double additionalFiveStarRating = ((double)(arr[0] + 1) / (double)(arr[1] + 1));
             return additionalFiveStarRating - currentRating;
-        }).reversed();
+        }).reversed(); // Needs to be a max heap.
 
         final PriorityQueue<Integer[]> heap = new PriorityQueue<>(orderByLargestGains);
-        double currentRating = 0d;
+        double ratingSum = 0d;
         for(final Integer[] productRating : productRatings) {
-            currentRating += ((double)productRating[0] / (double)productRating[1]);
+            ratingSum += ((double)productRating[0] / (double)productRating[1]);
             heap.offer(productRating);
         }
 
         int additionalReviewsCount = 0;
-        while((currentRating / productRatings.length * 100) < ratingsThreshold) {
-            final Integer[] next = heap.poll();
-            currentRating -= ((double)next[0] / (double)next[1]);
-            next[0]++;
-            next[1]++;
-            currentRating += ((double)next[0] / (double)next[1]);
-            heap.offer(next);
+        while((ratingSum / productRatings.length * 100) < ratingsThreshold) {
+            final Integer[] productRating = heap.poll();
+            ratingSum -= ((double)productRating[0] / (double)productRating[1]);
+            productRating[0]++;
+            productRating[1]++;
+            ratingSum += ((double)productRating[0] / (double)productRating[1]);
+            heap.offer(productRating);
             additionalReviewsCount++;
         }
 
