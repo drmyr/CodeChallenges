@@ -10,6 +10,16 @@ public class ShoppingPatterns {
     /*
      https://aonecode.com/amazon-online-assessment-shopping-patterns
 
+     Given a graph that can have a triangle, like the following:
+
+     A -- B
+          |  \
+     C -- D -- E -- F
+
+     wherein {B,D,E} form a triangle, count the number of nodes that touch the triangle, but do not form part of it.
+     In the example above, the answer would be 3, because {A,C,F} touch but do not form part of the triangle.
+     Multiple triangles are possible in the given graph.
+
      Example
         products_nodes = 6
         products_edges = 6
@@ -59,7 +69,7 @@ public class ShoppingPatterns {
             for(final Integer entry : trio) {
                 // copy collection to new HashSet, so that removeAll operation does not mutate the original
                 final Set<Integer> products = new HashSet<>(neighborsByNodeId.get(entry));
-                products.removeAll(trio);
+                products.removeAll(trio); // find difference between the sets
                 localSum += products.size();
             }
             minSum = Math.min(minSum, localSum);

@@ -6,8 +6,14 @@ public class ShoppingOptions {
      https://leetcode.com/discuss/interview-question/974912/amazon-phone-find-all-combinations-of-numbers-that-sum-to-a-target
      https://aonecode.com/aplusplus/interviewctrl/getInterview/90819289
 
+     Find all the unique outfits that can be made given categories of items with their associated costs.
+     The total price of the outfit cannot exceed the budget, and your outfit must have one and only one item
+     from each category.
+
      Example:
      priceOfJeans = [2, 3], priceOfShoes = [4], priceOfSkirts = [2, 3], priceOfTops = [1, 2], budgeted = 10
+
+     Here, 4 unique outfits are possible that do not exceed the 10 dollar budget: [2,4,2,2], [2,4,2,1], [3,4,2,1], [2,4,3,1]
 
          money  0  1  2  3  4  5  6  7  8  9  10
 
