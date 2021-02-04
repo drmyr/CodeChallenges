@@ -18,7 +18,7 @@ public class ShoppingPatterns {
 
      wherein {B,D,E} form a triangle, count the number of nodes that touch the triangle, but do not form part of it.
      In the example above, the answer would be 3, because {A,C,F} touch but do not form part of the triangle.
-     Multiple triangles are possible in the given graph.
+     Multiple triangles are possible in the given graph, so return the minimum of all possibilities.
 
      Example
         products_nodes = 6
@@ -67,7 +67,7 @@ public class ShoppingPatterns {
         for(final Set<Integer> trio : trios) {
             int localSum = 0;
             for(final Integer entry : trio) {
-                // copy collection to new HashSet, so that removeAll operation does not mutate the original
+                // copy collection to new HashSet, so that `.removeAll()` operation does not mutate the original
                 final Set<Integer> products = new HashSet<>(neighborsByNodeId.get(entry));
                 products.removeAll(trio); // find difference between the sets
                 localSum += products.size();
