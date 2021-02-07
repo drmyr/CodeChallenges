@@ -1,5 +1,7 @@
 package general;
 
+import java.util.function.BinaryOperator;
+
 public class FreshPromotion {
 
     /*
@@ -22,35 +24,39 @@ public class FreshPromotion {
         int groupIndex = 0;
         int shoppingCartIndex = 0;
 
-        OUTTER:
+        final BinaryOperator<Integer> evaluateRestOfCodeList = (final Integer cartIndex, final Integer grpIdx) -> {
+            // If we made it here, it means that the shoppingCartIndex is pointing at something that is at the head
+            // of the next codeList group, so iterate through the rest of the group, and see if the rest match as well.
+            int localShoppingCartIndex = cartIndex + 1;
+            for(int i = 1; i < codeList[grpIdx].length; i++) {
+                // if we are at the end of the shopping cart and still trying to match groups
+                // then this shopping cart content cannot be a match
+                if(localShoppingCartIndex == shoppingCart.length) return 0;
+
+                if(WILDCARD.equals(codeList[grpIdx][i]) || codeList[grpIdx][i].equals(shoppingCart[localShoppingCartIndex])) {
+                    localShoppingCartIndex++;
+                } else {
+                    // If the next item did not match, then the group will not match.
+                    // As such, go to the next item in the shopping cart, and start the search over.
+                    return -1;
+                }
+            }
+            return localShoppingCartIndex;
+        };
+
         while(shoppingCartIndex < shoppingCart.length && groupIndex < codeList.length) {
             if(WILDCARD.equals(codeList[groupIndex][0]) || codeList[groupIndex][0].equals(shoppingCart[shoppingCartIndex])) {
+                final Integer result = evaluateRestOfCodeList.apply(shoppingCartIndex, groupIndex);
+                if(result > 0) {
+                    // If we made it here, it means everything in the group matched, so move on to the next group
+                    groupIndex++;
 
-                // If we made it here, it means that the shoppingCartIndex is pointing at something that is at the head
-                // of the next codeList group, so iterate through the rest of the group, and see if the rest match as well.
-                int localShoppingCartIndex = shoppingCartIndex + 1;
-                for(int i = 1; i < codeList[groupIndex].length; i++) {
-                    // if we are at the end of the shopping cart and still trying to match groups
-                    // then this shopping cart content cannot be a match
-                    if(localShoppingCartIndex == shoppingCart.length) return 0;
-
-                    if(WILDCARD.equals(codeList[groupIndex][i]) || codeList[groupIndex][i].equals(shoppingCart[localShoppingCartIndex])) {
-                        localShoppingCartIndex++;
-                    } else {
-                        // If the next item did not match, then the group will not match.
-                        // As such, go to the next item in the shopping cart, and start the search over
-                        // by breaking to the outter while loop.
-                        shoppingCartIndex++;
-                        break OUTTER;
-                    }
+                    // we can now skip ahead in the list, since as we evaluated the group, we were also looking ahead
+                    // in the shopping cart
+                    shoppingCartIndex = result;
+                } else {
+                    shoppingCartIndex++;
                 }
-
-                // If we made it here, it means everything in the group matched, so move on to the next group
-                groupIndex++;
-
-                // we can now skip ahead in the list, since as we evaluated the group, we were also looking ahead
-                // in the shopping cart
-                shoppingCartIndex = localShoppingCartIndex;
             } else {
                 // if we don't find a match, just move to the next item.
                 shoppingCartIndex++;
