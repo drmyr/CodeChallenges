@@ -3,6 +3,7 @@ package dfsbfs;
 import models.CriticalEdge;
 
 import java.lang.reflect.Array;
+import java.lang.reflect.Type;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Predicate;
@@ -32,8 +33,9 @@ public class FindArticulationPoints {
         final Object[][] criticalEdgesArray = criticalEdges.stream()
             .map(ce -> new Object[] {ce.getCriticalNodeId(), ce.getCriticalNodeDestinationId()})
             .toArray(Object[][]::new);
+        final Class<?> baseArrayType = edges.getClass().getComponentType().getComponentType();
         @SuppressWarnings("unchecked")
-        T[][] result = (T[][]) Array.newInstance(edges.getClass().getComponentType().getComponentType(), criticalEdgesArray.length, criticalEdgesArray[0].length);
+        final T[][] result = (T[][]) Array.newInstance(baseArrayType, criticalEdgesArray.length, criticalEdgesArray[0].length);
         for(int i = 0; i < criticalEdgesArray.length; i++) {
             System.arraycopy(criticalEdgesArray[i], 0, result[i], 0, criticalEdgesArray[i].length);
         }
@@ -42,9 +44,11 @@ public class FindArticulationPoints {
 
     public static <T> T[] criticalNodes(final T root, final T[][] edges) {
         final Set<CriticalEdge<T>> criticalEdges = tarjan(root, edges);
-        final Object[] criticalNodes = criticalEdges.stream().map(CriticalEdge::getCriticalNodeId).distinct().toArray();
+        final Object[] criticalNodes = criticalEdges.stream()
+            .map(CriticalEdge::getCriticalNodeId).distinct().toArray();
+        final Class<?> baseArrayType = edges.getClass().getComponentType().getComponentType();
         @SuppressWarnings("unchecked")
-        final T[] result = (T[]) Array.newInstance(edges.getClass().getComponentType().getComponentType(), criticalNodes.length);
+        final T[] result = (T[]) Array.newInstance(baseArrayType, criticalNodes.length);
         System.arraycopy(criticalNodes, 0, result, 0, criticalNodes.length);
         return result;
     }
