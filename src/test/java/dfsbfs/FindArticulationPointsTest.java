@@ -6,13 +6,13 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
-import static dfsbfs.FindArticulationPoints.criticalConnections;
+import static dfsbfs.FindArticulationPoints.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 class FindArticulationPointsTest {
 
     @Test
-    void criticalConnectionsTest() {
+    void criticalNodesTest() {
         /*
          * B -- C -- D -- E -- F -- H
          * |  /           |  /
@@ -22,7 +22,7 @@ class FindArticulationPointsTest {
         final Matcher<Character[]> graphOneAnswer = Matchers.arrayContainingInAnyOrder('c','d','e','f');
 
         for(final Character proposedRoot : List.of('a', 'd', 'h', 'e')) {
-            assertThat(criticalConnections(proposedRoot, graphOne), graphOneAnswer);
+            assertThat(criticalNodes(proposedRoot, graphOne), graphOneAnswer);
         }
 
         /*
@@ -36,7 +36,7 @@ class FindArticulationPointsTest {
         final Matcher<Integer[]> graphTwoAnswer = Matchers.arrayContainingInAnyOrder(2,3,5);
 
         for(final Integer proposedRoot : List.of(0, 2, 4, 6)) {
-            assertThat(criticalConnections(proposedRoot, graphTwo), graphTwoAnswer);
+            assertThat(criticalNodes(proposedRoot, graphTwo), graphTwoAnswer);
         }
 
         /*
@@ -51,7 +51,7 @@ class FindArticulationPointsTest {
         final Matcher<Integer[]> graphThreeAnswer = Matchers.arrayContainingInAnyOrder(1);
 
         for(final Integer proposedRoot : List.of(1, 2, 3)) {
-            assertThat(criticalConnections(proposedRoot, graphThree), graphThreeAnswer);
+            assertThat(criticalNodes(proposedRoot, graphThree), graphThreeAnswer);
         }
 
         /*
@@ -67,7 +67,26 @@ class FindArticulationPointsTest {
         final Matcher<Integer[]> graphFourAnswer = Matchers.arrayContainingInAnyOrder(3,6);
 
         for(final Integer proposedRoot : List.of(0,2,3)) {
-            assertThat(criticalConnections(proposedRoot, graphFour), graphFourAnswer);
+            assertThat(criticalNodes(proposedRoot, graphFour), graphFourAnswer);
         }
+    }
+
+    @Test
+    void criticalEdgesTest() {
+        /*
+        https://aonecode.com/amazon-online-assessment-data-center-critical-connection
+
+        1 - 2
+        |  /
+        | /
+        3 -- 4
+         */
+        final Integer[][] graphOne = {{1, 2}, {1, 3}, {3, 2}, {3, 4}};
+
+        for(final Integer proposedRoot : List.of(1,2,3)) {
+            final Integer[][] result = criticalConnections(proposedRoot, graphOne);
+            assertThat(result[0], Matchers.arrayContainingInAnyOrder(3,4));
+        }
+
     }
 }

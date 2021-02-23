@@ -1,5 +1,7 @@
 package dfsbfs;
 
+import models.CriticalEdge;
+
 import java.lang.reflect.Array;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -11,6 +13,7 @@ import java.util.function.Predicate;
  * https://www.geeksforgeeks.org/articulation-points-or-cut-vertices-in-a-graph/
  * https://www.cs.cornell.edu/courses/cs2112/2012sp/lectures/lec24/lec24-12sp.html
  * https://www.sanfoundry.com/java-program-tarjan-algorithm/
+ * https://www.geeksforgeeks.org/tarjan-algorithm-find-strongly-connected-components/
  *
  * Quoting CP-Algorithms (link above):
  *
@@ -24,32 +27,50 @@ import java.util.function.Predicate;
  */
 public class FindArticulationPoints {
 
-    public static <T> T[] criticalConnections(final T root, final T[][] edges) {
+    public static <T> T[][] criticalConnections(final T root, final T[][] edges) {
+        final Set<CriticalEdge<T>> criticalEdges = tarjan(root, edges);
+        final Object[][] criticalEdgesArray = criticalEdges.stream()
+            .map(ce -> new Object[] {ce.getCriticalNodeId(), ce.getCriticalNodeDestinationId()})
+            .toArray(Object[][]::new);
+        @SuppressWarnings("unchecked")
+        T[][] result = (T[][]) Array.newInstance(edges.getClass().getComponentType().getComponentType(), criticalEdgesArray.length, criticalEdgesArray[0].length);
+        for(int i = 0; i < criticalEdgesArray.length; i++) {
+            System.arraycopy(criticalEdgesArray[i], 0, result[i], 0, criticalEdgesArray[i].length);
+        }
+        return result;
+    }
+
+    public static <T> T[] criticalNodes(final T root, final T[][] edges) {
+        final Set<CriticalEdge<T>> criticalEdges = tarjan(root, edges);
+        final Object[] criticalNodes = criticalEdges.stream().map(CriticalEdge::getCriticalNodeId).distinct().toArray();
+        @SuppressWarnings("unchecked")
+        final T[] result = (T[]) Array.newInstance(edges.getClass().getComponentType().getComponentType(), criticalNodes.length);
+        System.arraycopy(criticalNodes, 0, result, 0, criticalNodes.length);
+        return result;
+    }
+
+    private static <T> Set<CriticalEdge<T>> tarjan(final T root, final T[][] edges) {
         final AtomicInteger ai = new AtomicInteger(0);
 
         class MethodLocalNode {
             final T id;
             final Set<T> connections;
 
-            int rootChildCount = 0;
+            final Set<CriticalEdge<T>> rootCriticalEdge;
             boolean isRoot = false;
 
-            boolean countersInitialized = false;
-            int disc = 0;
-            int low = 0;
+            int disc = 0, low = 0;
 
             MethodLocalNode(final T id) {
                 this.id = id;
                 this.connections = new HashSet<>();
+                this.rootCriticalEdge = new HashSet<>();
             }
 
             void setCounters() {
-                if(!this.countersInitialized) {
-                    final int next = ai.getAndIncrement();
-                    this.disc = next;
-                    this.low = next;
-                    this.countersInitialized = true;
-                }
+                final int next = ai.getAndIncrement();
+                this.disc = next;
+                this.low = next;
             }
 
             /*
@@ -59,9 +80,9 @@ public class FindArticulationPoints {
              * `continueDFS` predicate below this root node never be able to contribute another child node to the
              * DFS stack that has not already been visited.
              */
-            void tryIncrementRootChildCount() {
+            void tryIncrementRootChildCount(final T child) {
                 if(isRoot) {
-                    rootChildCount++;
+                    rootCriticalEdge.add(new CriticalEdge<>(id, child));
                 }
             }
 
@@ -90,8 +111,8 @@ public class FindArticulationPoints {
                 final MethodLocalNode next = graph.get(id);
                 if(!visited.contains(next.id)) {
                     next.setCounters();
+                    node.tryIncrementRootChildCount(id);
                     stack.push(next.id);
-                    node.tryIncrementRootChildCount();
                     return true;
                 }
                 low = Math.min(low, next.low);
@@ -100,7 +121,7 @@ public class FindArticulationPoints {
             return false;
         };
 
-        final Set<T> articulationPoints = new HashSet<>();
+        final Set<CriticalEdge<T>> criticalEdges = new HashSet<>();
 
         MethodLocalNode top;
         while((top = graph.get(stack.peek())) != null) {
@@ -113,30 +134,26 @@ public class FindArticulationPoints {
                  1. the node at the top of the stack is the root node, in which case it needs to have
                  two independent children for it to be an articulation point, else
 
-                 2. the node needs to have a discovery time that is lower than at least one of its
+                 2. the node needs to have a discovery time that is lower than or equal to at least one of its
                  adjacent nodes, as a lower discovery time indicates that it is an articulation point.
 
                  */
                 final MethodLocalNode node = graph.get(stack.pop());
 
                 if(node.isRoot) {
-                    if(node.rootChildCount > 1) {
-                        articulationPoints.add(node.id);
+                    if(node.rootCriticalEdge.size() > 1) {
+                        criticalEdges.addAll(node.rootCriticalEdge);
                     }
                 } else {
                     for(final T adjacentId : node.connections) {
                         if(node.disc <= graph.get(adjacentId).low) {
-                            articulationPoints.add(node.id);
-                            break;
+                            criticalEdges.add(new CriticalEdge<>(node.id, adjacentId));
                         }
                     }
                 }
             }
         }
 
-        final T[] result = (T[]) Array.newInstance(edges.getClass().getComponentType().getComponentType(), articulationPoints.size());
-        System.arraycopy(articulationPoints.toArray(), 0, result, 0, articulationPoints.size());
-
-        return result;
+        return criticalEdges;
     }
 }
