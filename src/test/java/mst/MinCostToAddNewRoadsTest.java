@@ -1,8 +1,8 @@
-package heap;
+package mst;
 
 import org.junit.jupiter.api.Test;
 
-import static heap.MinCostToAddNewRoads.minCostForRoad;
+import static mst.MinCostToAddNewRoads.minCostForRoad;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;

@@ -1,4 +1,4 @@
-package heap;
+package mst;
 
 import java.util.*;
 
@@ -45,10 +45,9 @@ public class MinCostToAddNewRoads {
                 return this;
             }
 
-            MethodLocalDisjointSet union(final MethodLocalDisjointSet other) {
+            void union(final MethodLocalDisjointSet other) {
                 this.unionFind.addAll(other.unionFind);
                 this.cost += other.cost;
-                return this;
             }
         }
 
@@ -71,16 +70,17 @@ public class MinCostToAddNewRoads {
             } else if(!disjointSetMap.containsKey(cityTwo)){
                 final MethodLocalDisjointSet cityOneDisjointSet = disjointSetMap.get(cityOne).with(connection);
                 disjointSetMap.put(cityTwo, cityOneDisjointSet);
-            // Case 4: They both have a disjoint set, and they are different. Merge the sets.
+            // Case 4: They both have a disjoint set, so attempt to merge them.
             } else {
                 final MethodLocalDisjointSet cityOneDisjointSet = disjointSetMap.get(cityOne);
                 final MethodLocalDisjointSet cityTwoDisjointSet = disjointSetMap.get(cityTwo);
-                // If both are already in the same disjoint set, do nothing.
-                // Otherwise, join the disjoint sets
+                // If both are already in the same disjoint set, do nothing. This avoids adding the cost of going
+                // between the two cities using the more expensive path. Otherwise, join the disjoint sets.
                 if(cityOneDisjointSet != cityTwoDisjointSet) {
                     cityOneDisjointSet.union(cityTwoDisjointSet);
-                    disjointSetMap.put(cityOne, cityOneDisjointSet);
-                    disjointSetMap.put(cityTwo, cityOneDisjointSet);
+                    for(final Integer node : cityOneDisjointSet.unionFind) {
+                        disjointSetMap.put(node, cityOneDisjointSet);
+                    }
                 }
             }
         }
