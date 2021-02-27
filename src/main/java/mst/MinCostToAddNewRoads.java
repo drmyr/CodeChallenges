@@ -32,21 +32,21 @@ public class MinCostToAddNewRoads {
         }
 
         class MethodLocalDisjointSet {
-            final Set<Integer> unionFind;
+            final Set<Integer> members;
             int cost;
             MethodLocalDisjointSet() {
-                this.unionFind = new HashSet<>();
+                this.members = new HashSet<>();
             }
 
             MethodLocalDisjointSet with(final int[] connection) {
-                this.unionFind.add(connection[cityOneIndex]);
-                this.unionFind.add(connection[cityTwoIndex]);
+                this.members.add(connection[cityOneIndex]);
+                this.members.add(connection[cityTwoIndex]);
                 this.cost += connection[connectionCost];
                 return this;
             }
 
             void union(final MethodLocalDisjointSet other) {
-                this.unionFind.addAll(other.unionFind);
+                this.members.addAll(other.members);
                 this.cost += other.cost;
             }
         }
@@ -78,7 +78,7 @@ public class MinCostToAddNewRoads {
                 // between the two cities using the more expensive path. Otherwise, join the disjoint sets.
                 if(cityOneDisjointSet != cityTwoDisjointSet) {
                     cityOneDisjointSet.union(cityTwoDisjointSet);
-                    for(final Integer node : cityOneDisjointSet.unionFind) {
+                    for(final Integer node : cityOneDisjointSet.members) {
                         disjointSetMap.put(node, cityOneDisjointSet);
                     }
                 }

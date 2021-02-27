@@ -2,11 +2,14 @@ package general;
 
 import java.util.*;
 
+import static java.util.Collections.reverseOrder;
+import static java.util.Comparator.naturalOrder;
+
 public class OptimizingBoxWeights {
 
     // https://leetcode.com/discuss/interview-question/1021441/Amazon-OA-or-optimizating-Box-Weight
     public static Integer[] optimizeBoxWeights(final Integer[] weights) {
-        Arrays.sort(weights, Collections.reverseOrder());
+        Arrays.sort(weights, reverseOrder());
         final double totalWeight = Arrays.stream(weights).reduce(0, Integer::sum);
         final double medianCeiling = Math.floor(totalWeight / 2);
         final List<Integer> result = new ArrayList<>();
@@ -20,6 +23,6 @@ public class OptimizingBoxWeights {
             index++;
         }
 
-        return result.stream().sorted(Comparator.naturalOrder()).toArray(Integer[]::new);
+        return result.stream().sorted(naturalOrder()).toArray(Integer[]::new);
     }
 }

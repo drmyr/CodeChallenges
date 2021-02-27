@@ -29,9 +29,9 @@ public class MinCostToRepairEdges {
     public static int repairEdgesMinCost(final int nodeCount, final int[][] edges, final int[][] edgesToRepair) {
         final int nodeOneIndex = 0, nodeTwoIndex = 1, connectionCost = 2;
 
-        class EdgeWithCost {
+        class MethodLocalEdgeWithCost {
             final int alphaNode, betaNode, cost;
-            EdgeWithCost(final int[] connectionWithCost) {
+            MethodLocalEdgeWithCost(final int[] connectionWithCost) {
                 this.alphaNode = connectionWithCost[nodeOneIndex];
                 this.betaNode = connectionWithCost[nodeTwoIndex];
                 this.cost = connectionWithCost.length == 3 ? connectionWithCost[connectionCost] : 0;
@@ -44,8 +44,8 @@ public class MinCostToRepairEdges {
 
             @Override
             public boolean equals(final Object other) {
-                if(other instanceof EdgeWithCost) {
-                    final EdgeWithCost instance = (EdgeWithCost)other;
+                if(other instanceof MethodLocalEdgeWithCost) {
+                    final MethodLocalEdgeWithCost instance = (MethodLocalEdgeWithCost)other;
                     return this.alphaNode == instance.alphaNode && this.betaNode == instance.betaNode;
                 }
                 return false;
@@ -53,32 +53,32 @@ public class MinCostToRepairEdges {
         }
 
         class MethodLocalDisjointSet {
-            final Set<Integer> unionFind;
+            final Set<Integer> members;
             int cost = 0;
             MethodLocalDisjointSet() {
-                this.unionFind = new HashSet<>();
+                this.members = new HashSet<>();
             }
 
-            MethodLocalDisjointSet with(final EdgeWithCost edgeWithCost) {
-                this.unionFind.add(edgeWithCost.alphaNode);
-                this.unionFind.add(edgeWithCost.betaNode);
+            MethodLocalDisjointSet with(final MethodLocalEdgeWithCost edgeWithCost) {
+                this.members.add(edgeWithCost.alphaNode);
+                this.members.add(edgeWithCost.betaNode);
                 this.cost += edgeWithCost.cost;
                 return this;
             }
 
             MethodLocalDisjointSet union(final MethodLocalDisjointSet other) {
-                this.unionFind.addAll(other.unionFind);
+                this.members.addAll(other.members);
                 this.cost += other.cost;
                 return this;
             }
         }
 
-        final PriorityQueue<EdgeWithCost> nextCheapestConnection = new PriorityQueue<>(comparingInt(ewc -> ewc.cost));
+        final PriorityQueue<MethodLocalEdgeWithCost> nextCheapestConnection = new PriorityQueue<>(comparingInt(ewc -> ewc.cost));
         for(final int[] edgeToRepair : edgesToRepair) {
-            nextCheapestConnection.offer(new EdgeWithCost(edgeToRepair));
+            nextCheapestConnection.offer(new MethodLocalEdgeWithCost(edgeToRepair));
         }
         for(final int[] edge : edges) {
-            final EdgeWithCost ewc = new EdgeWithCost(edge);
+            final MethodLocalEdgeWithCost ewc = new MethodLocalEdgeWithCost(edge);
             if(!nextCheapestConnection.contains(ewc)) {
                 nextCheapestConnection.offer(ewc);
             }
@@ -87,15 +87,13 @@ public class MinCostToRepairEdges {
         final TreeMap<Integer, MethodLocalDisjointSet> disjointSetMap = new TreeMap<>();
         while(!nextCheapestConnection.isEmpty()) {
 
-            /*
-             * If the MethodLocalDisjointSet has all the nodes of the MST, then we are done.
-             */
+            //If the MethodLocalDisjointSet has all the nodes of the MST, then we are done.
             final Entry<Integer, MethodLocalDisjointSet> head = disjointSetMap.firstEntry();
-            if(head != null && head.getValue() != null && head.getValue().unionFind.size() == nodeCount) {
+            if(head != null && head.getValue() != null && head.getValue().members.size() == nodeCount) {
                 break;
             }
 
-            final EdgeWithCost ewc = nextCheapestConnection.poll();
+            final MethodLocalEdgeWithCost ewc = nextCheapestConnection.poll();
 
             final int alphaNode = ewc.alphaNode;
             final int betaNode = ewc.betaNode;
@@ -115,7 +113,7 @@ public class MinCostToRepairEdges {
 
                 if(alphaDisjointSet != betaDisjointSet) {
                     alphaDisjointSet.union(betaDisjointSet).with(ewc);
-                    for(final Integer node : alphaDisjointSet.unionFind) {
+                    for(final Integer node : alphaDisjointSet.members) {
                         disjointSetMap.put(node, alphaDisjointSet);
                     }
                 }
