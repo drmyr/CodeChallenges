@@ -113,7 +113,7 @@ public class MinCostToRepairEdges {
 
                 if(alphaDisjointSet != betaDisjointSet) {
                     alphaDisjointSet.union(betaDisjointSet).with(ewc);
-                    for(final Integer node : alphaDisjointSet.members) {
+                    for(final Integer node : betaDisjointSet.members) {
                         disjointSetMap.put(node, alphaDisjointSet);
                     }
                 }

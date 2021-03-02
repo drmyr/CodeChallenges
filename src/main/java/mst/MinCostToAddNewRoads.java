@@ -78,7 +78,8 @@ public class MinCostToAddNewRoads {
                 // between the two cities using the more expensive path. Otherwise, join the disjoint sets.
                 if(cityOneDisjointSet != cityTwoDisjointSet) {
                     cityOneDisjointSet.union(cityTwoDisjointSet);
-                    for(final Integer node : cityOneDisjointSet.members) {
+                    // update all node IDs that were in set two to now point at set one.
+                    for(final Integer node : cityTwoDisjointSet.members) {
                         disjointSetMap.put(node, cityOneDisjointSet);
                     }
                 }
