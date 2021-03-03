@@ -4,6 +4,8 @@ import java.util.*;
 import java.util.function.BiConsumer;
 import java.util.function.BiPredicate;
 
+import static java.util.Comparator.comparingInt;
+
 public class DistinctIslandCount {
 
     public static int numberOfDistinctIslands(final Integer[][] map) {
@@ -17,7 +19,7 @@ public class DistinctIslandCount {
             Island(final Integer initRow, final Integer initCol) {
                 this.initRow = initRow;
                 this.initCol = initCol;
-                this.bodyCoords = new TreeSet<>(Comparator.comparingInt((final Integer[] coord) -> coord[0])
+                this.bodyCoords = new TreeSet<>(comparingInt((final Integer[] coord) -> coord[0])
                         .thenComparing((final Integer[] coord) -> coord[1]));
             }
 
