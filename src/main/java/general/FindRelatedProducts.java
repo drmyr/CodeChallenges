@@ -20,7 +20,6 @@ public class FindRelatedProducts {
     public static List<String> findRelatedProducts(final List<List<String>> graph) {
         final Map<String, Set<String>> disjointSetMap = new HashMap<>();
 
-        int max = 0;
         Set<String> largestSet = emptySet();
         for(final List<String> set : graph) {
             final Set<String> newSet = new HashSet<>();
@@ -35,9 +34,8 @@ public class FindRelatedProducts {
                         disjointSetMap.put(existingEntry, newSet);
                     }
                 }
-                if(newSet.size() > max) {
+                if(newSet.size() > largestSet.size()) {
                     largestSet = newSet;
-                    max = newSet.size();
                 }
             }
         }
