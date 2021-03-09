@@ -46,7 +46,7 @@ public class ProductRankings {
         final Deque<List<String>> rowQueue = new ArrayDeque<>();
 
         List<String> row = new ArrayList<>();
-        while(!heap.isEmpty() || rowQueue.size() < rowNumber) {
+        while(!heap.isEmpty() && rowQueue.size() < rowNumber) {
             if(row.size() < productsPerRow) {
                 row.add(heap.poll().getKey());
             } else {
