@@ -20,9 +20,9 @@ public class MinOfMaximum {
         /**
          * https://labuladong.gitbook.io/algo-en/ii.-data-structure/monotonic_queue
          */
-        class MethodLocalMonotonicMinimumQueue {
+        class MonotonicMinimumQueue {
             private final Deque<Integer> valueQueue;
-            MethodLocalMonotonicMinimumQueue() {
+            MonotonicMinimumQueue() {
                 this.valueQueue = new ArrayDeque<>();
             }
 
@@ -44,7 +44,7 @@ public class MinOfMaximum {
             }
         }
 
-        final MethodLocalMonotonicMinimumQueue windowQueue = new MethodLocalMonotonicMinimumQueue();
+        final MonotonicMinimumQueue windowQueue = new MonotonicMinimumQueue();
         final TreeSet<Integer> result = new TreeSet<>(reverseOrder());
         for(int i = 0; i < temps.length; i++) {
             if(i < tripLength - 1) {

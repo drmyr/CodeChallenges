@@ -1,10 +1,35 @@
 package general;
 
-import java.util.Stack;
+import java.util.*;
 import java.util.function.Predicate;
+
+import static java.util.Collections.reverseOrder;
 
 // https://leetcode.com/problems/largest-rectangle-in-histogram/
 public class LargestRectangleOfHistogram {
+
+    /*
+     * http://www.algorithmsandme.com/monotonic-queue/
+     *
+     * Not mine, wanted the example handy
+     */
+    public static int largestRectangleOfHistogramMonotonicQueue(final int[] columns) {
+        final Deque<Integer> stackOfIndices = new ArrayDeque<>();
+
+        int maxArea = 0;
+        for(int i = 0; i <= columns.length; i++) {
+            final int height = i == columns.length ? 0 : columns[i];
+            while(!stackOfIndices.isEmpty() && height < columns[stackOfIndices.peek()]){
+                final int top = stackOfIndices.pop();
+                final int leftLimit = stackOfIndices.isEmpty() ? -1 : stackOfIndices.peek();
+                final int width = i - leftLimit - 1;
+                final int area = width * columns[top];
+                maxArea = Integer.max(area, maxArea);
+            }
+            stackOfIndices.push(i);
+        }
+        return maxArea;
+    }
 
     public static int largestRectangleOfHistogram(final int[] columns) {
         final Stack<Integer> stackOfIndexes = new Stack<>();
