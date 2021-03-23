@@ -8,6 +8,10 @@ public class JobScheduleMinDifficulty {
     /*
      https://leetcode.com/problems/minimum-difficulty-of-a-job-schedule/
 
+     identical to
+
+     https://aonecode.com/Amazon-Online-Assessment-Minimum-Total-Container-Size
+
      First attempt at the problem. Appears to be a valid solution, but too slow on medium to large inputs, and times out.
 
      Imperatively creates all possible job divisions for the number of given days.
