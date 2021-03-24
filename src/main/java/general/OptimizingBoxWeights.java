@@ -3,7 +3,6 @@ package general;
 import java.util.*;
 
 import static java.util.Collections.reverseOrder;
-import static java.util.Comparator.naturalOrder;
 
 public class OptimizingBoxWeights {
 
@@ -23,6 +22,6 @@ public class OptimizingBoxWeights {
             index++;
         }
 
-        return result.stream().sorted(naturalOrder()).toArray(Integer[]::new);
+        return result.toArray(Integer[]::new);
     }
 }

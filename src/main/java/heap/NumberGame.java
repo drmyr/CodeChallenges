@@ -4,7 +4,6 @@ import java.util.*;
 import java.util.function.BinaryOperator;
 
 import static java.util.Comparator.naturalOrder;
-import static java.util.Comparator.reverseOrder;
 
 public class NumberGame {
 
@@ -44,21 +43,21 @@ public class NumberGame {
             return temp1;
         };
 
-        final List<Integer> minSet = new ArrayList<>();
+        final List<Integer> ascending = new ArrayList<>();
         for(final int value : array) {
-            minSet.add(value);
+            ascending.add(value);
         }
 
-        minSet.sort(naturalOrder());
+        ascending.sort(naturalOrder());
 
         int maxScore = 0;
         int roundCount = 1;
-        while(!minSet.isEmpty()) {
-            final int smallest = minSet.remove(0);
+        while(!ascending.isEmpty()) {
+            final int smallest = ascending.remove(0);
             int gcd = 0;
             int matchIndex = 0;
-            for(int i = 0; i < minSet.size(); i++) {
-                final int maybeMatch = minSet.get(i);
+            for(int i = 0; i < ascending.size(); i++) {
+                final int maybeMatch = ascending.get(i);
                 final int localGcd = gcdByEuclidsAlgorithm.apply(smallest, maybeMatch);
                 if(localGcd > gcd) {
                     gcd = localGcd;
@@ -66,7 +65,7 @@ public class NumberGame {
                 }
             }
             maxScore += gcd * roundCount++;
-            minSet.remove(matchIndex);
+            ascending.remove(matchIndex);
         }
 
         return maxScore;
