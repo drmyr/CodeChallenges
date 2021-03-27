@@ -69,7 +69,34 @@ public class ShoppingOptions {
                 }
             }
         }
-
         return memoization[itemOptions - 1][budget];
+    }
+
+    public static int getNumberOfOptionsMinSpace(final int[] jeans, final int[] shoes, final int[] skirts, final int[] tops, final int budget) {
+        final int itemOptions = 4; // jeans, shoes, skirts, tops
+        final int[][] closet = new int[itemOptions][];
+        closet[0] = jeans;
+        closet[1] = shoes;
+        closet[2] = skirts;
+        closet[3] = tops;
+
+        int[] curr = new int[budget + 1];
+        int[] prev = new int[budget + 1];
+        for(int item = 0; item < itemOptions; item++) {
+            for(int money = 1; money < (budget + 1); money++) {
+                for(final int cost : closet[item]) {
+                    if(item == 0) {
+                        curr[money] = (money >= cost) ? curr[money] + 1 : curr[money];
+                    } else if(money >= cost) {
+                        final int waysToBuyThisItem = 1;
+                        final int waysToBuyPreviousItem = prev[money - cost];
+                        curr[money] = curr[money] + (waysToBuyThisItem * waysToBuyPreviousItem);
+                    }
+                }
+            }
+            prev = curr;
+            curr = new int[budget + 1];
+        }
+        return prev[budget];
     }
 }

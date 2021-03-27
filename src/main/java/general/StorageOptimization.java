@@ -1,5 +1,6 @@
 package general;
 
+import java.util.Arrays;
 import java.util.function.Function;
 
 public class StorageOptimization {
@@ -12,6 +13,8 @@ public class StorageOptimization {
      removed column dividers, and multiply it by the longest consecutive number of row dividers.
      */
     public static int largestSpace(final int colDivisions, final int rowDivisions, final int[] colRemovals, final int[] rowRemovals) {
+        Arrays.sort(colRemovals);
+        Arrays.sort(rowRemovals);
         final Function<int[], Integer> longestRun = (final int[] removals) -> {
             int tail = 0;
             int head = 1;
@@ -27,7 +30,6 @@ public class StorageOptimization {
             }
             return longest + 1;
         };
-
         return longestRun.apply(colRemovals) * longestRun.apply(rowRemovals);
     }
 }
