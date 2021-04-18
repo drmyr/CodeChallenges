@@ -11,6 +11,8 @@ public class MinOfMaximum {
      *
      * Use a monotonic queue to find the minimum over a sliding window.
      *
+     * [62, 64, 77, 75, 71, 60, 79, 75]
+     *
      * @param vacationDays
      * @param temps
      * @param tripLength
