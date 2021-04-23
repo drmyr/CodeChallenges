@@ -1,15 +1,184 @@
 package design;
 
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import static java.util.Collections.unmodifiableMap;
+import static java.util.Collections.unmodifiableSet;
+import static java.util.stream.Collectors.toList;
+import static java.util.stream.Collectors.toMap;
+import static java.util.stream.Collectors.toSet;
+
 /**
  * https://leetcode.com/discuss/interview-question/object-oriented-design/1031034/Design-a-Coffee-Machine
+ *
+ *     It will be serving some beverages.
+ *     Each beverage will be made using some ingredients.
+ *     The quantity of ingredients used for each beverage can vary. Also, the same ingredient (ex: water) can be used for multiple beverages.
+ *     Any beverage can be served only if all the ingredients are available in terms of quantity.
+ *     There would be an indicator that would show which all ingredients are running low. We need some methods to refill them.
  */
-public class CoffeeMachine {
+public class CoffeeMachineImpl implements CoffeeMachine {
+
+    private final Map<Ingredient, Double> currentIngredientQuantities;
+    private final Set<BeverageRecipe> recipes;
+    private final Set<BeverageRecipe> recipesThatCanCurrentlyBeMade;
+    private final Set<Ingredient> runningLow;
+
+    public CoffeeMachineImpl(final Set<BeverageRecipe> recipes) {
+        this.currentIngredientQuantities = recipes.stream().flatMap(recipe -> recipe.getIngredients().stream()).collect(toMap(
+            ingredient -> ingredient,
+            ingredient -> 0d
+        ));
+        this.recipes = unmodifiableSet(recipes);
+        this.recipesThatCanCurrentlyBeMade = new HashSet<>();
+        this.runningLow = this.recipes.stream().flatMap(recipe -> recipe.getIngredients().stream()).collect(toSet());
+    }
+
+    /**
+     * Returns a menu of options based on what can currently be made.
+     * @return
+     */
+    @Override
+    public BeverageMenu getBeverageMenu() {
+        return new BeverageMenu() {
+            @Override
+            public List<BeverageOption> getOptions() {
+                return CoffeeMachineImpl.this.recipesThatCanCurrentlyBeMade.stream().map(recipe -> new BeverageOption() {
+                    @Override
+                    public BeverageRecipe getBeverageRecipe() {
+                        return recipe;
+                    }
+                }).collect(toList());
+            }
+        };
+    }
+
+    /**
+     * Makes a beverage from a given option
+     * @param beverageOption
+     * @return
+     */
+    @Override
+    public Beverage make(final BeverageMenu.BeverageOption beverageOption) {
+        final BeverageRecipe beverageRecipe = beverageOption.getBeverageRecipe();
+        for(final Map.Entry<Ingredient, Double> entry : beverageRecipe.getIngredientsAndQuantity().entrySet()) {
+            final double newQuantity = this.currentIngredientQuantities.get(entry.getKey()) - entry.getValue();
+            if(newQuantity < getMinimumThresholdForIngredient(entry.getKey())) {
+                this.runningLow.add(entry.getKey());
+            }
+            this.currentIngredientQuantities.put(entry.getKey(), newQuantity);
+        }
+        this.recipesThatCanCurrentlyBeMade.removeAll(this.recipes.stream().filter(recipe -> !recipe.canMake(this.currentIngredientQuantities)).collect(toSet()));
+        return beverageRecipe::getBeverageName;
+    }
+
+    /**
+     * Reports what ingredients are currently low
+     * @return
+     */
+    @Override
+    public Set<Ingredient> runningLow() {
+        return unmodifiableSet(runningLow);
+    }
+
+    /**
+     * Adds more ingredient to the Coffee Machine
+     * @param ingredient
+     * @param additionalQuantity
+     */
+    @Override
+    public void replenish(final Ingredient ingredient, final double additionalQuantity) {
+        final double newQuantity = this.currentIngredientQuantities.get(ingredient) + additionalQuantity;
+        if(newQuantity > getMinimumThresholdForIngredient(ingredient)) {
+            this.runningLow.remove(ingredient);
+        }
+        this.currentIngredientQuantities.put(ingredient, newQuantity);
+        this.recipesThatCanCurrentlyBeMade.addAll(this.recipes.stream().filter(recipe -> recipe.canMake(this.currentIngredientQuantities)).collect(toSet()));
+    }
+
+    private double getMinimumThresholdForIngredient(final Ingredient ingredient) {
+        throw new UnsupportedOperationException("TBD");
+    }
 }
 
-abstract class Beverage {
+/**
+ * Basic operations of a Coffee Machine
+ */
+interface CoffeeMachine {
+
+    BeverageMenu getBeverageMenu();
+
+    Beverage make(final BeverageMenu.BeverageOption beverageOption);
+
+    Set<Ingredient> runningLow();
+
+    void replenish(final Ingredient ingredient, final double additionalQuantity);
 
 }
 
-abstract class Ingredients {
+/**
+ * Provides a menu of beverage options based on current availability
+ */
+interface BeverageMenu {
+    List<BeverageOption> getOptions();
+
+    interface BeverageOption {
+        BeverageRecipe getBeverageRecipe();
+    }
+}
+
+/**
+ * Identifies a beverage
+ */
+interface Beverage {
+
+    String getBeverageName();
+
+}
+
+/**
+ * A recipe that informs how much of which ingredients are required to create a given Beverage
+ */
+class BeverageRecipe {
+
+    private final Map<Ingredient, Double> ingredientsAndQuantity;
+    private final Beverage beverage;
+
+    public BeverageRecipe(final Beverage beverage, final Map<Ingredient, Double> ingredientsAndQuantity) {
+        this.beverage = beverage;
+        this.ingredientsAndQuantity = ingredientsAndQuantity;
+    }
+
+    public boolean canMake(final Map<Ingredient, Double> availableIngredients) {
+        for(final Map.Entry<Ingredient, Double> ingredients : availableIngredients.entrySet()) {
+            if(this.ingredientsAndQuantity.get(ingredients.getKey()) < ingredients.getValue()) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public String getBeverageName() {
+        return this.beverage.getBeverageName();
+    }
+
+    public Set<Ingredient> getIngredients() {
+        return this.ingredientsAndQuantity.keySet();
+    }
+
+    public Map<Ingredient, Double> getIngredientsAndQuantity() {
+        return unmodifiableMap(this.ingredientsAndQuantity);
+    }
+}
+
+/**
+ * Identifies an ingredient
+ */
+abstract class Ingredient {
+
+    abstract String getName();
 
 }
