@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Predicate;
 
 import static java.util.Collections.unmodifiableMap;
 import static java.util.Collections.unmodifiableSet;
@@ -71,7 +72,7 @@ public class CoffeeMachineImpl implements CoffeeMachine {
             }
             this.currentIngredientQuantities.put(entry.getKey(), newQuantity);
         }
-        this.recipesThatCanCurrentlyBeMade.removeAll(this.recipes.stream().filter(recipe -> !recipe.canMake(this.currentIngredientQuantities)).collect(toSet()));
+        this.recipesThatCanCurrentlyBeMade.removeAll(getRecipeSubset(recipe -> !recipe.canMake(this.currentIngredientQuantities)));
         return beverageRecipe::getBeverageName;
     }
 
@@ -91,12 +92,16 @@ public class CoffeeMachineImpl implements CoffeeMachine {
      */
     @Override
     public void replenish(final Ingredient ingredient, final double additionalQuantity) {
-        final double newQuantity = this.currentIngredientQuantities.get(ingredient) + additionalQuantity;
+        final double newQuantity = this.currentIngredientQuantities.getOrDefault(ingredient, 0d) + additionalQuantity;
         if(newQuantity > getMinimumThresholdForIngredient(ingredient)) {
             this.runningLow.remove(ingredient);
         }
         this.currentIngredientQuantities.put(ingredient, newQuantity);
-        this.recipesThatCanCurrentlyBeMade.addAll(this.recipes.stream().filter(recipe -> recipe.canMake(this.currentIngredientQuantities)).collect(toSet()));
+        this.recipesThatCanCurrentlyBeMade.addAll(getRecipeSubset(recipe -> recipe.canMake(this.currentIngredientQuantities)));
+    }
+
+    private Set<BeverageRecipe> getRecipeSubset(final Predicate<BeverageRecipe> filter) {
+        return this.recipes.stream().filter(filter).collect(toSet());
     }
 
     private double getMinimumThresholdForIngredient(final Ingredient ingredient) {
@@ -154,7 +159,7 @@ class BeverageRecipe {
 
     public boolean canMake(final Map<Ingredient, Double> availableIngredients) {
         for(final Map.Entry<Ingredient, Double> ingredients : availableIngredients.entrySet()) {
-            if(this.ingredientsAndQuantity.get(ingredients.getKey()) < ingredients.getValue()) {
+            if(this.ingredientsAndQuantity.getOrDefault(ingredients.getKey(), 0d) > ingredients.getValue()) {
                 return false;
             }
         }
