@@ -1,19 +1,19 @@
 package design;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.Predicate;
 
 import static java.util.Collections.unmodifiableMap;
 import static java.util.Collections.unmodifiableSet;
-import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toMap;
 import static java.util.stream.Collectors.toSet;
+import static java.util.stream.Collectors.toUnmodifiableSet;
 
 /**
  * https://leetcode.com/discuss/interview-question/object-oriented-design/1031034/Design-a-Coffee-Machine
+ * https://letcodify.in/2021/02/14/design-a-coffee-machine/
  *
  *     It will be serving some beverages.
  *     Each beverage will be made using some ingredients.
@@ -46,13 +46,13 @@ public class CoffeeMachineImpl implements CoffeeMachine {
     public BeverageMenu getBeverageMenu() {
         return new BeverageMenu() {
             @Override
-            public List<BeverageOption> getOptions() {
+            public Set<BeverageOption> getOptions() {
                 return CoffeeMachineImpl.this.recipesThatCanCurrentlyBeMade.stream().map(recipe -> new BeverageOption() {
                     @Override
                     public BeverageRecipe getBeverageRecipe() {
                         return recipe;
                     }
-                }).collect(toList());
+                }).collect(toUnmodifiableSet());
             }
         };
     }
@@ -73,7 +73,13 @@ public class CoffeeMachineImpl implements CoffeeMachine {
             this.currentIngredientQuantities.put(entry.getKey(), newQuantity);
         }
         this.recipesThatCanCurrentlyBeMade.removeAll(getRecipeSubset(recipe -> !recipe.canMake(this.currentIngredientQuantities)));
-        return beverageRecipe::getBeverageName;
+
+        return new Beverage() {
+            @Override
+            public String getBeverageName() {
+                return beverageRecipe.getBeverageName();
+            }
+        };
     }
 
     /**
@@ -128,7 +134,7 @@ interface CoffeeMachine {
  * Provides a menu of beverage options based on current availability
  */
 interface BeverageMenu {
-    List<BeverageOption> getOptions();
+    Set<BeverageOption> getOptions();
 
     interface BeverageOption {
         BeverageRecipe getBeverageRecipe();
@@ -138,9 +144,9 @@ interface BeverageMenu {
 /**
  * Identifies a beverage
  */
-interface Beverage {
+abstract class Beverage {
 
-    String getBeverageName();
+    abstract String getBeverageName();
 
 }
 
