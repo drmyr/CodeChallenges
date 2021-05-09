@@ -20,6 +20,7 @@ public class PostOrderTreeTraversal {
                 /*
                     Process `current` here
                  */
+                System.out.println(current.getId());
             } else {
                 // The right node has to be pushed before the left, so that the left is popped first.
                 if(next.getRight() != null) {

@@ -19,6 +19,7 @@ public class InOrderTreeTraversal {
                 /*
                     Logic for processing a node goes here
                  */
+                System.out.println(top.getId());
                 current = top.getRight();
             }
         }

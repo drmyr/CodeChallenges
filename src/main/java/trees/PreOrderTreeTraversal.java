@@ -14,6 +14,7 @@ public class PreOrderTreeTraversal {
             /*
                 Process `current` here
              */
+            System.out.println(current.getId());
 
             if(current.getRight() != null) {
                 stack.push(current.getRight());
