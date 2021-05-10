@@ -38,6 +38,9 @@ public class TreeFromView {
      * traversal is the root node) to create the next stage of the re-build.
      */
     public static BinaryNodeMutable buildFromPreAndInOrder(final int[] preOrderArray, final int[] inOrderArray) {
+        if(preOrderArray.length == 0 || inOrderArray.length == 0) throw new IllegalArgumentException();
+        if(preOrderArray.length != inOrderArray.length) throw new IllegalArgumentException();
+
         final List<Integer> preOrderList = Arrays.stream(preOrderArray).boxed().collect(toList());
         final List<Integer> inOrderList = Arrays.stream(inOrderArray).boxed().collect(toList());
 
