@@ -6,6 +6,7 @@ import java.util.ArrayDeque;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Queue;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Consumer;
 
 import static java.util.stream.Collectors.toList;
@@ -52,26 +53,16 @@ public class TreeFromView {
             }
         }
 
-        int inOrderIdx = 0;
-        while(!inOrderList.get(inOrderIdx).equals(preOrderList.get(0))) inOrderIdx++;
-        final BinaryNodeMutable root = new BinaryNodeMutable(inOrderList.get(inOrderIdx));
-
+        final AtomicReference<BinaryNodeMutable> root = new AtomicReference<>();
         final Queue<NodeBuildTask> queue = new ArrayDeque<>();
-        queue.offer(new NodeBuildTask(
-                preOrderList.subList(1, inOrderIdx + 1),
-                inOrderList.subList(0, inOrderIdx),
-                root::setLeft));
-        queue.offer(new NodeBuildTask(
-                preOrderList.subList(inOrderIdx + 1, preOrderList.size()),
-                inOrderList.subList(inOrderIdx + 1, inOrderList.size()),
-                root::setRight));
+        queue.offer(new NodeBuildTask(preOrderList, inOrderList, root::set));
 
         while(!queue.isEmpty()) {
             final NodeBuildTask job = queue.poll();
 
             if(job.inOrder.isEmpty() && job.preOrder.isEmpty()) continue;
 
-            inOrderIdx = 0;
+            int inOrderIdx = 0;
             while(!job.inOrder.get(inOrderIdx).equals(job.preOrder.get(0))) inOrderIdx++;
             final BinaryNodeMutable nextRoot = new BinaryNodeMutable(job.inOrder.get(inOrderIdx));
 
@@ -86,6 +77,6 @@ public class TreeFromView {
                     nextRoot::setRight));
         }
 
-        return root;
+        return root.get();
     }
 }
