@@ -7,6 +7,16 @@ import static trees.InOrderTreeTraversal.inOrderTraversalImperative;
 
 class InOrderTreeTraversalTest {
 
+    /**
+     *           3
+     *         /  \
+     *        2    5
+     *       / \  / \
+     *      1  4 6  7
+     * pre: 3 2 1 4 5 6 7
+     * in:  1 2 4 3 6 5 7
+     * Given pre and in-order traversal, construct the tree
+     */
     @Test
     void inOrderTraversalImperativeTest() {
         final BinaryNode one = new BinaryNode(1, null, null);
