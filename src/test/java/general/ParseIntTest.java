@@ -11,8 +11,8 @@ class ParseIntTest {
 
     @Test
     void parseStringToIntTest() {
-        assertThat(123456789L, is(equalTo(parseStringToInt("123456789"))));
-        assertThat(3L, is(equalTo(parseStringToInt("3"))));
-        assertThat(76L, is(equalTo(parseStringToInt("76"))));
+        assertThat(123456789, is(equalTo(parseStringToInt("123456789"))));
+        assertThat(3, is(equalTo(parseStringToInt("3"))));
+        assertThat(76, is(equalTo(parseStringToInt("76"))));
     }
 }
