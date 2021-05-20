@@ -29,7 +29,7 @@ public class LoadBalancer {
         int leftSum = array[0];
         int rightSum = array[array.length - 1];
         int middleSum = sum - leftSum - rightSum - array[leftDiv] - array[rightDiv];
-        while((leftDiv + 1) != rightDiv) {
+        while(leftDiv < rightDiv) {
             if(leftSum == rightSum && leftSum == middleSum) {
                 return new Integer[] {array[leftDiv], array[rightDiv]};
             }

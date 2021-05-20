@@ -52,6 +52,6 @@ public class MinDistinctValues {
             heap.poll();
         }
 
-        return new HashSet<>(heap).size();
+        return heap.size();
     }
 }

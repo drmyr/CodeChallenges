@@ -24,7 +24,7 @@ public class ValidBST {
                     inorder = top.getId();
                 }
 
-                current = top;
+                current = top.getRight();
             }
         }
 

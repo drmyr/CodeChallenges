@@ -17,7 +17,7 @@ public class ParseInt {
                 case '7' -> 7;
                 case '8' -> 8;
                 default -> 9;
-        };
+            };
 
         int value = 0;
         int power = 1;

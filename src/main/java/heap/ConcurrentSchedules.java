@@ -1,5 +1,6 @@
 package heap;
 
+import java.util.Arrays;
 import java.util.PriorityQueue;
 
 import static java.util.Comparator.comparingInt;
@@ -13,6 +14,7 @@ public class ConcurrentSchedules {
      */
     public static int mostConcurrentSchedules(final int[][] startAndEndTimes) {
         final int startTime = 0, endTime = 1;
+        Arrays.sort(startAndEndTimes, comparingInt(arr -> arr[startTime]));
         final PriorityQueue<int[]> heap = new PriorityQueue<>(comparingInt(arr -> arr[endTime]));
 
         int max = 0;
