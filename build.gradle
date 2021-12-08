@@ -12,8 +12,8 @@ plugins {
 }
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_15
-    targetCompatibility = JavaVersion.VERSION_15
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
 }
 
 repositories {
@@ -25,9 +25,9 @@ repositories {
 
 dependencies {
     testImplementation(platform('org.junit:junit-bom:5.7.0'))
-    testImplementation('org.junit.jupiter:junit-jupiter')
+    testImplementation('org.junit.jupiter:junit-jupiter:5.7.2')
     // https://mvnrepository.com/artifact/org.hamcrest/hamcrest-library
-    testCompile group: 'org.hamcrest', name: 'hamcrest-library', version: '2.2'
+    testImplementation group: 'org.hamcrest', name: 'hamcrest-library', version: '2.2'
 
 }
 

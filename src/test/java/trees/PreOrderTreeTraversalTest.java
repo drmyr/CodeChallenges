@@ -8,6 +8,13 @@ import static trees.PreOrderTreeTraversal.preOrderTraversalImperative;
 
 class PreOrderTreeTraversalTest {
 
+    /**
+     *          3
+     *         / \
+     *        2   5
+     *      / \  / \
+     *     1  4 6   7
+     */
     @Test
     void preOrderTraversalImperativeTest() {
         final BinaryNode one = new BinaryNode(1, null, null);
@@ -20,4 +27,5 @@ class PreOrderTreeTraversalTest {
 
         preOrderTraversalImperative(three);
     }
+
 }
