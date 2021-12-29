@@ -43,7 +43,7 @@ public class MaximalMinimumValuePath {
         final boolean[][] visited = new boolean[matrix.length][matrix[0].length];
 
         final BiPredicate<Integer, Integer> canEnter = (final Integer x, final Integer y) ->
-                x >= 0 && x < matrix.length && y >= 0 && y < matrix[x].length && !visited[x][y];
+            x >= 0 && x < matrix.length && y >= 0 && y < matrix[x].length && !visited[x][y];
 
         final int[][] dirs = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
 
