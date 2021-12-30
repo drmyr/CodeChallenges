@@ -42,10 +42,10 @@ public class RoseGarden {
     public static int daysToBouquet(final int[] bloomDays, final int minAdjacency, final int neededBouquets) {
         final AtomicInteger ai = new AtomicInteger();
         class DisjointSet {
-            final TreeSet<Integer> disjointSet;
+            final Set<Integer> disjointSet;
             final int id;
             DisjointSet(final int value) {
-                this.disjointSet = new TreeSet<>();
+                this.disjointSet = new HashSet<>();
                 this.disjointSet.add(value);
                 this.id = ai.getAndIncrement();
             }
@@ -84,14 +84,14 @@ public class RoseGarden {
             }
         };
 
-        while(!heap.isEmpty()) {
+        while (!heap.isEmpty()) {
             final int[] nextFlower = heap.poll();
             final int index = nextFlower[0];
             final int value = nextFlower[1];
 
-            if(index == 0) {
+            if (index == 0) {
                 consumeSet.accept(index, 1);
-            } else if(index == bloomDays.length - 1) {
+            } else if (index == bloomDays.length - 1) {
                 consumeSet.accept(index, -1);
             } else {
                 consumeSet.accept(index, 1);
