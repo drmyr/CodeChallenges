@@ -42,10 +42,10 @@ public class RoseGarden {
     public static int daysToBouquet(final int[] bloomDays, final int minAdjacency, final int neededBouquets) {
         final AtomicInteger ai = new AtomicInteger();
         class DisjointSet {
-            final Set<Integer> disjointSet;
+            final List<Integer> disjointSet;
             final int id;
             DisjointSet(final int value) {
-                this.disjointSet = new HashSet<>();
+                this.disjointSet = new ArrayList<>();
                 this.disjointSet.add(value);
                 this.id = ai.getAndIncrement();
             }
@@ -69,7 +69,7 @@ public class RoseGarden {
         }
 
         final Map<Integer, DisjointSet> disjointSetMap = new HashMap<>();
-        final PriorityQueue<int[]> heap = new PriorityQueue<>(comparingInt(ivp -> ivp[1]));
+        final PriorityQueue<int[]> heap = new PriorityQueue<>(comparingInt((final int[] ivp) -> ivp[1]).thenComparing((final int[] ivp) -> ivp[0]));
         for(int i = 0; i < bloomDays.length; i++) {
             disjointSetMap.put(i, new DisjointSet(bloomDays[i]));
             heap.offer(new int[] {i, bloomDays[i]});
@@ -77,10 +77,11 @@ public class RoseGarden {
         final Set<DisjointSet> bouquets = new HashSet<>();
 
         final BiConsumer<Integer, Integer> consumeSet = (final Integer index, final Integer direction) -> {
-            final DisjointSet set = disjointSetMap.get(index + direction);
-            if(bloomDays[index + direction] < bloomDays[index] && set.tryAdd(disjointSetMap.get(index), bouquets)) {
-                disjointSetMap.put(index + direction, set);
-                disjointSetMap.put(index, set);
+            final DisjointSet current = disjointSetMap.get(index);
+            final DisjointSet neighbor = disjointSetMap.get(index + direction);
+            if(bloomDays[index + direction] <= bloomDays[index] && current.tryAdd(neighbor, bouquets)) {
+                disjointSetMap.put(index + direction, current);
+                disjointSetMap.put(index, current);
             }
         };
 
