@@ -47,7 +47,7 @@ class PostOrderTreeTraversalTest {
         postOrderTraversalImperative(forty_five);
         System.out.println("------");
         System.out.println("recursive");
-        postOrderRecursive(forty_five);
+        //postOrderRecursive(forty_five);
     }
 
 

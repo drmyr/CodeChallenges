@@ -3,6 +3,7 @@ package general;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.BiConsumer;
+import java.util.function.Predicate;
 
 import static java.util.Comparator.comparingInt;
 
@@ -105,5 +106,50 @@ public class RoseGarden {
         }
 
         return -1;
+    }
+
+    /*
+     Not mine, just wanted the example handy
+     */
+    public static int daysToBouquetBinarySearch(final int[] bloomDays, final int minAdjacency, final int neededBouquets) {
+        if (bloomDays.length < (minAdjacency * neededBouquets)) return -1;
+
+        int lo = 0, hi = bloomDays.length - 1;
+
+        final AtomicInteger iterCount = new AtomicInteger();
+
+        final Predicate<Integer> canMake = (final Integer day) -> {
+            int bouquets = 0, currFlowers = 0;
+            for (final int bloomDay : bloomDays) {
+                System.out.println("top predicate iter " + iterCount + " bloomDay " + bloomDay + " bouquets " + bouquets + " currFlowers " + currFlowers);
+                if(bloomDay <= day) {
+                    currFlowers++;
+                    if(currFlowers == minAdjacency) {
+                        bouquets++;
+                        currFlowers = 0;
+                    }
+                } else {
+                    currFlowers = 0;
+                }
+                System.out.println("bottom predicate iter " + iterCount + " bloomDay " + bloomDay + " bouquets " + bouquets + " currFlowers " + currFlowers);
+            }
+            return bouquets == neededBouquets;
+        };
+
+        while(lo < hi) {
+            final int mid = lo + ((hi - lo) / 2);
+            System.out.println("iter " + iterCount + " mid " + mid);
+
+            if(canMake.test(mid)) {
+                hi = mid;
+                System.out.println("iter " + iterCount + " lower the hi");
+            } else {
+                lo = mid + 1;
+                System.out.println("iter " + iterCount + " raise the lo");
+            }
+            iterCount.getAndIncrement();
+        }
+
+        return lo;
     }
 }

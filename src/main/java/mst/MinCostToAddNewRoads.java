@@ -12,7 +12,7 @@ public class MinCostToAddNewRoads {
      * Min Cost To Add New Roads
      * There are N cities numbered from 1 to N.
      * You are given connections, where each connections[i] = [city1, city2, cost]
-     * represents the cost to connect city1 and city2together.
+     * represents the cost to connect city1 and city2 together.
      * (A connection is bidirectional: connecting city1 and city2 is the same as connecting city2 and city1.)
      *
      * Return the minimum cost so that for every pair of cities,

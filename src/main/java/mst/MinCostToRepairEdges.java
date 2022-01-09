@@ -11,7 +11,7 @@ public class MinCostToRepairEdges {
      * https://aonecode.com/amazon-online-assessment-oa2/min-cost-to-repair-edges
      *
      * "There's an undirected connected graph with n nodes labeled 1..n.
-     * But some of the edges has been broken disconnecting the graph.
+     * But some of the edges have been broken disconnecting the graph.
      * Find the minimum cost to repair the edges so that all the nodes
      * are once again accessible from each other."
      *
@@ -44,8 +44,7 @@ public class MinCostToRepairEdges {
 
             @Override
             public boolean equals(final Object other) {
-                if(other instanceof MethodLocalEdgeWithCost) {
-                    final MethodLocalEdgeWithCost instance = (MethodLocalEdgeWithCost)other;
+                if(other instanceof final MethodLocalEdgeWithCost instance) {
                     return this.alphaNode == instance.alphaNode && this.betaNode == instance.betaNode;
                 }
                 return false;

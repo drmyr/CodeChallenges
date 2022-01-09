@@ -44,7 +44,7 @@ public class EditDistance {
         for(int row = 1; row < emptyPaddedSrc.length(); row++) memoizationAlpha[row] = row;
 
         final UnaryOperator<int[]> getInactiveRow = (final int[] curr) ->
-                curr == memoizationAlpha ? memoizationBeta : memoizationAlpha;
+            curr == memoizationAlpha ? memoizationBeta : memoizationAlpha;
 
         int[] activeRow = memoizationBeta;
         for(int row = 1; row < emptyPaddedDest.length(); row++) {

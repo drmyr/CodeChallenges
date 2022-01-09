@@ -10,7 +10,7 @@ public class FindRelatedProducts {
      * https://aonecode.com/amazon-online-assessment-find-related-books
      *
      * This question is based on the product recommendation system on Amazon.
-     * Every time you open the a product page on Amazon you can see a section
+     * Every time you open the product page on Amazon you can see a section
      * “People who viewed this also viewed”. Now given a product relationship
      * represented as a graph(adjacent list), find out the largest connected component on this graph...
      *
