@@ -83,7 +83,7 @@ public class LongestPathInDAG {
             lastVertexInSeries = vertexIdAndItsMostExpensiveParent.get(lastVertexInSeries.id);
         }
 
-        System.out.println("Path: " + sb.reverse().toString());
+        System.out.println("Path: " + sb.reverse());
         return maxCostAndItsVertexId[0];
     }
 }

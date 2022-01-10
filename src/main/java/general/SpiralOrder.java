@@ -49,8 +49,7 @@ public class SpiralOrder {
 
             @Override
             public boolean equals(final Object obj) {
-                if(obj instanceof Point) {
-                    final Point other = (Point)obj;
+                if(obj instanceof final Point other) {
                     return this.row == other.row && this.col == other.col;
                 }
                 return false;
