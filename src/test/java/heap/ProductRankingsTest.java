@@ -7,10 +7,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static heap.ClosestPointsToOrigin.kClosest;
 import static heap.ProductRankings.rankingProducts;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 class ProductRankingsTest {
 

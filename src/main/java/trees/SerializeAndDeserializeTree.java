@@ -45,6 +45,16 @@ public class SerializeAndDeserializeTree {
         return sb.deleteCharAt(sb.length()).toString();
     }
 
+    /**
+     *           3
+     *         /  \
+     *        2    5
+     *       / \  / \
+     *      1  4 6  7
+     * pre: 3 2 1 4 5 6 7
+     * in:  1 2 4 3 6 5 7
+     *
+     **/
     public static BinaryNode deserialize(final String serialization) {
         throw new UnsupportedOperationException();
     }

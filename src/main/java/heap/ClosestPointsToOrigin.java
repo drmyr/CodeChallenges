@@ -13,7 +13,7 @@ public class ClosestPointsToOrigin {
     public static int[][] kClosest(final int[][] points, int K) {
 
         final ToDoubleFunction<int[]> euclideanDistance = (final int[] point) ->
-                Math.sqrt(Math.pow(point[0], 2) + Math.pow(point[1], 2));
+            Math.sqrt(Math.pow(point[0], 2) + Math.pow(point[1], 2));
 
         final PriorityQueue<int[]> heap = new PriorityQueue<>(comparingDouble(euclideanDistance));
 

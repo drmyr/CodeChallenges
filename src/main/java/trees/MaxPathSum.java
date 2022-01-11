@@ -30,9 +30,7 @@ public class MaxPathSum {
                 final int rightValue = pop.getRight() != null ? maxValueById.getOrDefault(pop.getRight().getId(), 0) : 0;
                 final int maxValue = Math.max(pop.getId() + leftValue, pop.getId() + rightValue);
                 maxValueById.put(pop.getId(), maxValue);
-                if(maxValue > globalMax) {
-                    globalMax = maxValue;
-                }
+                globalMax = Math.max(globalMax, maxValue);
             } else {
                 if(top.getRight() != null) {
                     stack.push(top.getRight());
@@ -41,7 +39,6 @@ public class MaxPathSum {
                 if(top.getLeft() != null) {
                     stack.push(top.getLeft());
                 }
-
                 visited.add(top.getId());
             }
         }

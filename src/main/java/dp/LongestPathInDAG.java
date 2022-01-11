@@ -37,7 +37,7 @@ public class LongestPathInDAG {
 
         // add roots to stack
         final Deque<Vertex> stack = vertexMap.values().stream()
-                .filter(Vertex::isRoot).collect(toCollection(ArrayDeque::new));
+            .filter(Vertex::isRoot).collect(toCollection(ArrayDeque::new));
 
         // Topologically sort vertices. The vertices will pop off the stack in reverse topological order.
         final Set<Integer> visited = new HashSet<>();

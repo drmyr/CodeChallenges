@@ -35,17 +35,9 @@ public class SplitArray2 {
         final int[] leftToRight = new int[arr.length];
         final int[] rightToLeft = new int[arr.length];
 
-        int leftToRightSum = 0;
-        for(int i = 0; i < arr.length; i++) {
-            leftToRightSum += arr[i];
-            leftToRight[i] = leftToRightSum;
-        }
+        int lrSum = 0; for(int i = 0; i < arr.length; i++) leftToRight[i] = (lrSum += arr[i]);
 
-        int rightToLeftSum = 0;
-        for(int i = arr.length - 1; i >= 0; i--) {
-            rightToLeftSum += arr[i];
-            rightToLeft[i] = rightToLeftSum;
-        }
+        int rlSum = 0; for(int i = arr.length - 1; i >= 0; i--) rightToLeft[i] = (rlSum += arr[i]);
 
         int count = 0;
         for(int i = 0; i < arr.length - 1; i++) {
