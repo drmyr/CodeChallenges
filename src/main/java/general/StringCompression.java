@@ -1,7 +1,5 @@
 package general;
 
-import java.util.Arrays;
-
 public class StringCompression {
 
     /**
