@@ -34,7 +34,7 @@ public class LongestIncreasingSubsequence {
             dp[i] = 1; // longest subsequence at a given position is at least as long as the element itself.
             for(int j = 0; j < i; j++) {
                 if(nums[j] < nums[i]) {
-                    dp[i] = Math.max(dp[i],dp[j]+1);
+                    dp[i] = Math.max(dp[i], dp[j] + 1);
                 }
             }
             max = Math.max(max, dp[i]);

@@ -44,7 +44,7 @@ public class DistinctIslandCount {
         final boolean[][] visited = new boolean[map.length][map[0].length];
         final Integer[][] dirs = {{0, 1}, {1, 0}, {0, -1}, {-1, 0}};
         final BiPredicate<Integer, Integer> canEnter = (final Integer row, final Integer col) ->
-                row >= 0 && row < rowLength && col >= 0 && col < colLength && map[row][col] == 1 && !visited[row][col];
+            row >= 0 && row < rowLength && col >= 0 && col < colLength && map[row][col] == 1 && !visited[row][col];
 
         final BiConsumer<Integer, Integer> landFound = (final Integer row, final Integer col) -> {
             final Island island = new Island(row, col);
