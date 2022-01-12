@@ -14,5 +14,7 @@ class UniquePathsInAGridTest {
     @Test
     void uniquePathCountTest() {
         assertThat(2, is(equalTo(uniquePathCount(new int[][] {{0,0,0},{0,1,0},{0,0,0}}))));
+        assertThat(1, is(equalTo(uniquePathCount(new int[][] {{0,1},{0,0}}))));
+        assertThat(7, is(equalTo(uniquePathCount(new int[][] {{0,0,0,0},{0,1,0,0},{0,0,0,0},{0,0,1,0},{0,0,0,0}}))));
     }
 }

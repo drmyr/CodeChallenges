@@ -17,44 +17,10 @@ public class UniquePathsInAGrid {
      *         [0, 0, 0]]
      * Output : 2
      * There is only one obstacle in the middle.
-     * @param matrix
+     * @param obstacleGrid
      * @return
      */
-    public static int uniquePathCount(final int[][] matrix) {
-        if(matrix[0][0] == 1) return 0;
-
-        final int[][] dp = new int[matrix.length][matrix[0].length];
-
-        for(int c = 0; c < matrix[0].length; c++) {
-            if(matrix[0][c] == 1) {
-                break;
-            } else {
-                dp[0][c] = 1;
-            }
-        }
-
-        for(int r = 0; r < matrix.length; r++) {
-            if(matrix[r][0] == 1) {
-                break;
-            } else {
-                dp[r][0] = 1;
-            }
-        }
-
-        for(int r = 1; r < matrix.length; r++) {
-            for(int c = 1; c < matrix[r].length; c++) {
-                if(matrix[r][c] == 1) {
-                    continue;
-                }
-                if(matrix[r - 1][c] != 1) {
-                    dp[r][c] = dp[r][c] + 1;
-                }
-                if(matrix[r][c - 1] != 1) {
-                    dp[r][c] = dp[r][c] + 1;
-                }
-            }
-        }
-
-        return dp[matrix.length - 1][matrix[0].length - 1];
+    public static int uniquePathCount(final int[][] obstacleGrid) {
+        throw new UnsupportedOperationException("UniquePathsInAGrid.uniquePathCount");
     }
 }
