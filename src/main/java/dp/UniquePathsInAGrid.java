@@ -35,9 +35,7 @@ public class UniquePathsInAGrid {
                 } else if(c == 0) {
                     dp[r][c] = (obstacleGrid[r][c] == 0) ? dp[r - 1][c] : dp[r][c];
                 } else {
-                    if(obstacleGrid[r][c] == 0) {
-                        dp[r][c] = dp[r - 1][c] + dp[r][c - 1];
-                    }
+                    dp[r][c] = (obstacleGrid[r][c] == 0) ? dp[r - 1][c] + dp[r][c - 1] : dp[r][c];
                 }
             }
         }
