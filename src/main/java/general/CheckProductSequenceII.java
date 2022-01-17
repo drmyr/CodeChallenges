@@ -38,7 +38,7 @@ public class CheckProductSequenceII {
                 return endIndex - startIndex;
             }
 
-            void provide(final String nextFound, final int foundIndex) {
+            boolean tryComplete(final String nextFound, final int foundIndex) {
                 if(!isComplete()) {
                     if(sequence[sequenceBookmark].equals(nextFound)) {
                         sequenceBookmark++;
@@ -47,6 +47,7 @@ public class CheckProductSequenceII {
                         endIndex = foundIndex;
                     }
                 }
+                return isComplete();
             }
 
             @Override
@@ -68,8 +69,7 @@ public class CheckProductSequenceII {
                 sequences.add(new Sequence(i));
             } else if(sequenceSet.contains(products[i])) {
                 for(final Sequence next : sequences) {
-                    next.provide(products[i], i);
-                    if(next.isComplete() && (next.getRange() < result.getRange())) {
+                    if(next.tryComplete(products[i], i) && (next.getRange() < result.getRange())) {
                         result = next;
                     }
                 }
