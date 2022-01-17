@@ -68,14 +68,20 @@ public class CheckProductSequenceII {
             if(products[i].equals(sequence[0])) {
                 sequences.add(new Sequence(i));
             } else if(sequenceSet.contains(products[i])) {
+                final Set<Sequence> sequencesToRemove = new HashSet<>();
                 for(final Sequence next : sequences) {
                     if(next.tryComplete(products[i], i) && (next.getRange() < result.getRange())) {
                         result = next;
                     }
+                    // remove any sequences that we know cannot be the answer, as we have already found a better answer.
+                    if((i - next.startIndex) > result.getRange()) {
+                        sequencesToRemove.add(next);
+                    }
                 }
+                sequences.removeAll(sequencesToRemove);
             }
         }
 
-        return result.getRange() + 1;
+        return result.isComplete() ? result.getRange() + 1 : -1;
     }
 }
