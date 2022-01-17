@@ -27,11 +27,11 @@ public class CheckProductSequenceII {
             Sequence(final int startIndex) {
                 this.startIndex = startIndex;
                 this.sequenceBookmark = 1;
-                this.endIndex = -1;
+                this.endIndex = Integer.MAX_VALUE;
             }
 
             boolean isComplete() {
-                return this.endIndex != -1;
+                return this.endIndex != Integer.MAX_VALUE;
             }
 
             int getRange() {
@@ -63,7 +63,6 @@ public class CheckProductSequenceII {
         final Set<Sequence> sequences = new HashSet<>();
 
         Sequence result = new Sequence(0);
-        result.endIndex = Integer.MAX_VALUE;
         for(int i = 0; i < products.length; i++) {
             if(products[i].equals(sequence[0])) {
                 sequences.add(new Sequence(i));
