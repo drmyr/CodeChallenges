@@ -38,9 +38,9 @@ public class CheckProductSequenceII {
                 return endIndex - startIndex;
             }
 
-            boolean tryComplete(final String nextFound, final int foundIndex) {
+            boolean tryComplete(final int foundIndex) {
                 if(!isComplete()) {
-                    if(sequence[sequenceBookmark].equals(nextFound)) {
+                    if(sequence[sequenceBookmark].equals(products[foundIndex])) {
                         sequenceBookmark++;
                     }
                     if(sequenceBookmark == sequence.length) {
@@ -70,7 +70,7 @@ public class CheckProductSequenceII {
             } else if(sequenceSet.contains(products[i])) {
                 final Set<Sequence> sequencesToRemove = new HashSet<>();
                 for(final Sequence next : sequences) {
-                    if(next.tryComplete(products[i], i) && (next.getRange() < result.getRange())) {
+                    if(next.tryComplete(i) && (next.getRange() < result.getRange())) {
                         result = next;
                     }
                     // remove any sequences that we know cannot be the answer, as we have already found a better answer.
@@ -82,6 +82,7 @@ public class CheckProductSequenceII {
             }
         }
 
+        // +1 because the range is inclusive of the start and end.
         return result.isComplete() ? result.getRange() + 1 : -1;
     }
 }
