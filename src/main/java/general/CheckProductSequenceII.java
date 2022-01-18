@@ -1,7 +1,6 @@
 package general;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 public class CheckProductSequenceII {
@@ -59,7 +58,7 @@ public class CheckProductSequenceII {
             }
         }
 
-        final Set<String> sequenceSet = new HashSet<>(List.of(sequence));
+        final Set<String> sequenceSet = Set.of(sequence);
 
         final Set<Sequence> sequences = new HashSet<>();
 
