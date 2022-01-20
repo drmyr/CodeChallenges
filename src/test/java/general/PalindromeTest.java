@@ -10,6 +10,7 @@ class PalindromeTest {
 
     @Test
     void isPalindromeTest() {
+        assertTrue(isPalindrome("a"));
         assertTrue(isPalindrome("racecar"));
         assertFalse(isPalindrome("turtle"));
     }

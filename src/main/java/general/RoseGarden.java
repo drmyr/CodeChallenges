@@ -45,17 +45,21 @@ public class RoseGarden {
         class DisjointSet {
             final List<Integer> disjointSet;
             final int id;
+            boolean isAlreadyInBouquet;
             DisjointSet(final int value) {
                 this.disjointSet = new ArrayList<>();
                 this.disjointSet.add(value);
                 this.id = ai.getAndIncrement();
+                this.isAlreadyInBouquet = false;
             }
 
             boolean tryAdd(final DisjointSet other, final Set<DisjointSet> bouquet) {
-                final boolean success = this.disjointSet.size() < minAdjacency &&
+                final boolean success = !other.isAlreadyInBouquet &&
+                    this.disjointSet.size() < minAdjacency &&
                     this.disjointSet.addAll(other.disjointSet);
-                if(this.disjointSet.size() == minAdjacency) {
+                if(this.disjointSet.size() == minAdjacency && !isAlreadyInBouquet) {
                     bouquet.add(this);
+                    this.isAlreadyInBouquet = true;
                 }
                 return success;
             }

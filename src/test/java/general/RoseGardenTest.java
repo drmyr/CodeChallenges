@@ -14,7 +14,7 @@ class RoseGardenTest {
     void daysToBouquetTest() {
         assertThat(4, is(equalTo(daysToBouquet(new int[] {1, 2, 4, 9, 3, 4, 1}, 2, 2))));
         assertThat(-1, is(equalTo(daysToBouquet(new int[] {1,10,3,10,2}, 3, 2))));
-        assertThat(12, is(equalTo(daysToBouquet(new int[] {7,7,7,7,12,7,7}, 2, 3))));
+        assertThat(12, is(equalTo(daysToBouquet(new int[] {7,7,7,12,7,7}, 2, 3))));
     }
 
     @Test
