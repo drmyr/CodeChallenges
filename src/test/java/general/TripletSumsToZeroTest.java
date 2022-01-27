@@ -3,10 +3,8 @@ package general;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
 
-import static general.TransactionLogs.processLogFile;
 import static general.TripletSumsToZero.findAllTripletsThatSumToZero;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 class TripletSumsToZeroTest {
 

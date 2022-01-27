@@ -3,11 +3,9 @@ package heap;
 import org.junit.jupiter.api.Test;
 
 import static heap.ConcurrentSchedules.mostConcurrentSchedules;
-import static heap.MeetingRoomsTwo.minMeetingRooms;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 class ConcurrentSchedulesTest {
 
