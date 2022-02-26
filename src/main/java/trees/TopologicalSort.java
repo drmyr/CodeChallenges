@@ -9,7 +9,7 @@ public class TopologicalSort {
     /**
      * https://www.cs.cornell.edu/courses/cs2112/2012sp/lectures/lec24/lec24-12sp.html
      * "The key observation is that a node finishes (is marked black) after all of its descendants have been marked black.
-     *  Therefore, a node that is marked black later must come earlier when topologically sorted. A a postorder
+     *  Therefore, a node that is marked black later must come earlier when topologically sorted. A postorder
      *  traversal generates nodes in the reverse of a topological sort"
      *
      *  In summary, a post-order traversal is needed for topological sorting.
@@ -28,7 +28,7 @@ public class TopologicalSort {
         while (!stack.isEmpty()) {
             final Node top = stack.peek();
             if(visited.contains(top.getId())) {
-                reversePostOrder.addFirst(stack.pop());
+                reversePostOrder.addLast(stack.pop());
             } else {
                 for(final Node child : top.getNeighbors()) {
                     if(!visited.contains(child.getId())) {

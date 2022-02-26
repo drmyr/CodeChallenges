@@ -3,8 +3,6 @@ package trees;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
 
-import java.util.Arrays;
-
 import static org.hamcrest.MatcherAssert.assertThat;
 import static trees.ReconstructItinerary.rebuildItinerary;
 

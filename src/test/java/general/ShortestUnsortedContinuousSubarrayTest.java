@@ -12,10 +12,10 @@ class ShortestUnsortedContinuousSubarrayTest {
     @Test
     void shortestSubarrayTest() {
         // given
-        final var array1 = new int[] {2, 6, 4, 8, 10, 9, 15};
-        final var array2 = new int[] {3, 8, 9, 4, 10, 14, 15, 6, 7};
-        final var array3 = new int[] {3, 5, 2, 6, 4, 1, 7, 8, 9};
-        final var array4 = new int[] {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
+        final int[] array1 = {2, 6, 4, 8, 10, 9, 15};
+        final int[] array2 = {3, 8, 9, 4, 10, 14, 15, 6, 7};
+        final int[] array3 = {3, 5, 2, 6, 4, 1, 7, 8, 9};
+        final int[] array4 = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
 
         // when
         final var result1 = shortestSubarray(array1);

@@ -1,7 +1,7 @@
 package general;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.ArrayDeque;
+import java.util.Deque;
 
 /**
  * https://www.algorithmsandme.com/monotonic-queue/
@@ -46,11 +46,11 @@ public class ShortestUnsortedContinuousSubarray {
      * The first thing out of order is not necessarily equal to the start of things that are out of order.
      */
     public static int shortestSubarray(final int[] array) {
-        final List<Integer> monotonicallyIncreasingIndices = new ArrayList<>();
+        final Deque<Integer> monotonicallyIncreasingIndices = new ArrayDeque<>();
         int firstOutOfOrderIndex = -1;
         int endOutOfOrderIndex = 0;
         for(int i = 0; i < array.length; i++) {
-            if(monotonicallyIncreasingIndices.isEmpty() || array[i] > array[monotonicallyIncreasingIndices.get(monotonicallyIncreasingIndices.size() - 1)]) {
+            if(monotonicallyIncreasingIndices.isEmpty() || array[i] > array[monotonicallyIncreasingIndices.getLast()]) {
                 monotonicallyIncreasingIndices.add(i);
             } else {
                 if(firstOutOfOrderIndex == -1) firstOutOfOrderIndex = i;
