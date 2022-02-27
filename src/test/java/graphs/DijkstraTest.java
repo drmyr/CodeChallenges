@@ -3,6 +3,7 @@ package graphs;
 import org.junit.jupiter.api.Test;
 
 import static graphs.Dijkstra.shortestPath;
+import static graphs.Dijkstra.shortestPathLength;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -22,7 +23,7 @@ class DijkstraTest {
             {"E", "C", "5"}
         };
 
-        assertThat(7, is(equalTo(shortestPath(mapOne, "A", "C"))));
+        assertThat(7, is(equalTo(shortestPathLength(mapOne, "A", "C").get())));
 
         // https://www.happycoders.eu/algorithms/dijkstras-algorithm-java/
         final String[][] mapTwo = {
@@ -38,8 +39,9 @@ class DijkstraTest {
             {"I","B","15"},
             {"E","B","5"}
         };
-        assertThat(11, is(equalTo(shortestPath(mapTwo, "G", "B"))));
-        assertThat(11, is(equalTo(shortestPath(mapTwo, "A", "I"))));
-        assertThat(9, is(equalTo(shortestPath(mapTwo, "H", "D"))));
+        assertThat(11, is(equalTo(shortestPathLength(mapTwo, "G", "B").get())));
+        assertThat(11, is(equalTo(shortestPathLength(mapTwo, "A", "I").get())));
+        assertThat(9, is(equalTo(shortestPathLength(mapTwo, "H", "D").get())));
+        System.out.println(shortestPath(mapTwo, "G", "B").get());
     }
 }

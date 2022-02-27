@@ -7,9 +7,35 @@ import static java.util.Comparator.comparing;
 
 public class Dijkstra {
 
-    public static int shortestPath(final String[][] edgesWithCosts, final String start, final String end) {
-        record Vertex(int cost, String name, Vertex from) {}
+    private record Vertex(int cost, String name, Vertex from) {
+        @Override
+        public boolean equals(final Object other) {
+            return other instanceof final Vertex vertex && this.name.equals(vertex.name);
+        }
 
+        @Override
+        public int hashCode() {
+            return Objects.hash(this.name);
+        }
+    }
+
+    public static Optional<String> shortestPath(final String[][] edgesWithCosts, final String start, final String end) {
+        return doShortestPath(edgesWithCosts, start, end).map((final Vertex vertex) -> {
+            final StringBuilder sb = new StringBuilder();
+            Vertex current = vertex;
+            while(current != null) {
+                sb.append(">-").append(current.name);
+                current = current.from;
+            }
+            return sb.reverse().delete(sb.length() - 2, sb.length()).toString();
+        });
+    }
+
+    public static Optional<Integer> shortestPathLength(final String[][] edgesWithCosts, final String start, final String end) {
+        return doShortestPath(edgesWithCosts, start, end).map(Vertex::cost);
+    }
+
+    private static Optional<Vertex> doShortestPath(final String[][] edgesWithCosts, final String start, final String end) {
         final Map<String, Vertex> vertexByName = new HashMap<>();
         final Vertex vertexStart = new Vertex(0, start, null);
         vertexByName.put(start, vertexStart);
@@ -33,26 +59,24 @@ public class Dijkstra {
             final Vertex thisVertex = heap.poll();
 
             if(thisVertex.name.equals(end)) {
-                System.out.println(thisVertex);
-                return thisVertex.cost;
+                return Optional.of(thisVertex);
             }
 
             for(final String[] neighbors : graph.get(thisVertex.name)) {
-                final Vertex next = vertexByName.get(neighbors[0]);
+                Vertex neighbor = vertexByName.get(neighbors[0]);
                 final int maybeCheaper = thisVertex.cost + Integer.parseInt(neighbors[1]);
-                if(maybeCheaper < next.cost) {
-                    vertexByName.put(neighbors[0], new Vertex(maybeCheaper, next.name, thisVertex));
+                if(maybeCheaper < neighbor.cost) {
+                    vertexByName.put(neighbors[0], (neighbor = new Vertex(maybeCheaper, neighbor.name, thisVertex)));
                 }
-                final Vertex updatedNext = vertexByName.get(neighbors[0]);
-                if(!visited.contains(neighbors[0])) {
-                    heap.remove(updatedNext);
-                    heap.offer(updatedNext);
+                if(!visited.contains(neighbor.name)) {
+                    heap.remove(neighbor);
+                    heap.offer(neighbor);
                 }
             }
 
             visited.add(thisVertex.name);
         }
 
-        return Integer.MAX_VALUE;
+        return Optional.empty();
     }
 }
