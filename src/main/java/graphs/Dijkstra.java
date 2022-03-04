@@ -3,7 +3,7 @@ package graphs;
 import java.util.*;
 import java.util.function.BinaryOperator;
 
-import static java.util.Comparator.comparing;
+import static java.util.Comparator.comparingInt;
 
 public class Dijkstra {
 
@@ -40,6 +40,7 @@ public class Dijkstra {
         final Vertex vertexStart = new Vertex(0, start, null);
         vertexByName.put(start, vertexStart);
 
+        // key: vertex name, value: vertices the key points to (at value[0]), and the cost (at value[1])
         final Map<String, List<String[]>> graph = new HashMap<>();
         final BinaryOperator<List<String[]>> merger = (a, b) -> { a.addAll(b); return a; };
         for(final String[] edge : edgesWithCosts) {
@@ -52,7 +53,7 @@ public class Dijkstra {
         }
 
         final Set<String> visited = new HashSet<>();
-        final PriorityQueue<Vertex> heap = new PriorityQueue<>(comparing(Vertex::cost));
+        final PriorityQueue<Vertex> heap = new PriorityQueue<>(comparingInt(Vertex::cost));
         heap.offer(vertexStart);
 
         while(!heap.isEmpty()) {
@@ -66,7 +67,7 @@ public class Dijkstra {
                 Vertex neighbor = vertexByName.get(neighbors[0]);
                 final int maybeCheaper = thisVertex.cost + Integer.parseInt(neighbors[1]);
                 if(maybeCheaper < neighbor.cost) {
-                    vertexByName.put(neighbors[0], (neighbor = new Vertex(maybeCheaper, neighbor.name, thisVertex)));
+                    vertexByName.put(neighbor.name, (neighbor = new Vertex(maybeCheaper, neighbor.name, thisVertex)));
                 }
                 if(!visited.contains(neighbor.name)) {
                     heap.remove(neighbor);

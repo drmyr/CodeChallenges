@@ -1,4 +1,4 @@
-package general;
+package monotonicqueue;
 
 import org.junit.jupiter.api.Test;
 
@@ -8,7 +8,7 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-import static general.LargestRectangleOfHistogram.*;
+import static monotonicqueue.LargestRectangleOfHistogram.*;
 
 class LargestRectangleOfHistogramTest {
 

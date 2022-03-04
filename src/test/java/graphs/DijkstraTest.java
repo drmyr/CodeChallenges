@@ -14,13 +14,13 @@ class DijkstraTest {
     void shortestPathTest() {
         // https://www.youtube.com/watch?v=pVfj6mxhdMw
         final String[][] mapOne = {
-            {"A", "B", "6"},
-            {"A", "D", "1"},
-            {"D", "B", "2"},
-            {"D", "E", "1"},
-            {"B", "E", "2"},
-            {"B", "C", "5"},
-            {"E", "C", "5"}
+            {"A","B","6"},
+            {"A","D","1"},
+            {"D","B","2"},
+            {"D","E","1"},
+            {"B","E","2"},
+            {"B","C","5"},
+            {"E","C","5"}
         };
 
         assertThat(7, is(equalTo(shortestPathLength(mapOne, "A", "C").get())));
