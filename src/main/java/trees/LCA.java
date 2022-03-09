@@ -6,7 +6,7 @@ import java.util.*;
 
 public class LCA {
 
-    public int lowestCommonAncestor(final BinaryNode root, BinaryNode p, BinaryNode q) {
+    public static int lowestCommonAncestor(final BinaryNode root, BinaryNode p, BinaryNode q) {
         // Stack for tree traversal
         final Deque<BinaryNode> stack = new ArrayDeque<>();
         stack.push(root);

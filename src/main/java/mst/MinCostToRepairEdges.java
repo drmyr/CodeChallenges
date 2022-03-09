@@ -44,10 +44,9 @@ public class MinCostToRepairEdges {
 
             @Override
             public boolean equals(final Object other) {
-                if(other instanceof final MethodLocalEdgeWithCost instance) {
-                    return this.alphaNode == instance.alphaNode && this.betaNode == instance.betaNode;
-                }
-                return false;
+                return other instanceof final MethodLocalEdgeWithCost instance &&
+                    this.alphaNode == instance.alphaNode &&
+                    this.betaNode == instance.betaNode;
             }
         }
 
