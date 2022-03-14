@@ -2,10 +2,7 @@ package dfsbfs;
 
 import models.BinaryNode;
 
-import java.util.ArrayDeque;
-import java.util.ArrayList;
-import java.util.Deque;
-import java.util.List;
+import java.util.*;
 
 public class ZigZagLevelOrder {
 
@@ -34,20 +31,20 @@ public class ZigZagLevelOrder {
             if(leftToRight) {
                 if(next.getLeft() != null) {
                     inactiveQueue.offerFirst(next.getLeft());
-                    last.add(next.getLeft().getVal());
+                    last.add(next.getLeft().getId());
                 }
                 if(next.getRight() != null) {
                     inactiveQueue.offerFirst(next.getRight());
-                    last.add(next.getRight().getVal());
+                    last.add(next.getRight().getId());
                 }
             } else {
                 if(next.getRight() != null) {
                     inactiveQueue.offerFirst(next.getRight());
-                    last.add(next.getRight().getVal());
+                    last.add(next.getRight().getId());
                 }
                 if(next.getLeft() != null) {
                     inactiveQueue.offerFirst(next.getLeft());
-                    last.add(next.getLeft().getVal());
+                    last.add(next.getLeft().getId());
                 }
             }
 
@@ -62,11 +59,11 @@ public class ZigZagLevelOrder {
         }
 
         // A new array list is added to the `result` at the end of each level order traversal, in preparation for the
-        // next level order traversal. This means that when we get to the last level, one extraneous array list is
+        // next level order traversal. This means that when we get to the last level, one extraneous array list has been
         // added, and needs to be removed.
         result.pollLast();
 
-        return result.stream().toList();
+        return result.stream().map(Collections::unmodifiableList).toList();
 
     }
 }
