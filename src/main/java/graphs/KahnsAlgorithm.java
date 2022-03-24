@@ -8,8 +8,8 @@ public class KahnsAlgorithm {
 
     /**
      * https://leetcode.com/problems/course-schedule
-     * @param numCourses leetcode can lie to you, so ignore this variable.
-     * @param prerequisites
+     * @param numCourses leetcode lies to you for funsies, so ignore this variable.
+     * @param prerequisites the course graph
      * @return
      */
     public static boolean canFinish(final int numCourses, final int[][] prerequisites) {
@@ -27,6 +27,7 @@ public class KahnsAlgorithm {
             graph.merge(prerequisite[0], new ArrayList<>(), (a, b) -> { a.addAll(b); return a; });
         }
 
+        // Add any nodes with an indegree of 0 to the queue
         final Deque<Integer> topoSortQueue = new ArrayDeque<>();
         for(final Map.Entry<Integer, Integer> entry : indegree.entrySet()) {
             if(entry.getValue() == 0) {
@@ -35,16 +36,11 @@ public class KahnsAlgorithm {
         }
 
         final List<Integer> topoSort = new ArrayList<>();
-        final Set<Integer> visited = new HashSet<>();
 
         while(!topoSortQueue.isEmpty()) {
             final int next = topoSortQueue.pollFirst();
-            if(visited.contains(next)) {
-                return false;
-            }
-            visited.add(next);
             topoSort.add(next);
-            for(final int neighbor : graph.getOrDefault(next, emptyList())) {
+            for(final int neighbor : graph.get(next)) {
                 indegree.merge(neighbor, -1, Integer::sum);
                 if(indegree.get(neighbor) == 0) {
                     topoSortQueue.offerLast(neighbor);
