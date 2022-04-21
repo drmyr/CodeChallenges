@@ -10,6 +10,7 @@ public class ValidBST {
         final Stack<BinaryNode> stack = new Stack<>();
         double inorder = -Double.MAX_VALUE;
 
+        BinaryNode currInOrder = root;
         BinaryNode current = root;
         while(!stack.isEmpty() || current != null) {
             if(current != null) {
@@ -18,13 +19,19 @@ public class ValidBST {
             } else {
                 final BinaryNode top = stack.pop();
 
-                if(top.getId() <= inorder) {
-                    return false;
+                if(top.getVal() > inorder) {
+                    currInOrder = top;
+                    inorder = top.getVal();
+                    current = top.getRight();
+                } else if(top.getVal() == inorder) {
+                    if(currInOrder.getRight() == top) {
+                        current = top.getRight();
+                    } else {
+                        return false;
+                    }
                 } else {
-                    inorder = top.getId();
+                    return false;
                 }
-
-                current = top.getRight();
             }
         }
 

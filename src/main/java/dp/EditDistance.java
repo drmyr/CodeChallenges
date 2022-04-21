@@ -35,6 +35,28 @@ public class EditDistance {
         return dpTable[emptyPaddedDst.length() - 1][emptyPaddedSrc.length() - 1];
     }
 
+    public static int easierToReadEditDistance(final String str1, final String str2) {
+        final String source = " " + str1;
+        final String target = " " + str2;
+
+        final int[][] dp = new int[source.length()][target.length()];
+
+        for(int i = 0; i < source.length(); i++) dp[i][0] = i;
+        for(int i = 0; i < target.length(); i++) dp[0][i] = i;
+
+        for(int r = 1; r < source.length(); r++) {
+            for(int c = 1; c < target.length(); c++) {
+                if(source.charAt(r) != target.charAt(c)) {
+                    dp[r][c] = Math.min(dp[r - 1][c], Math.min(dp[r - 1][c - 1], dp[r][c - 1])) + 1;
+                } else {
+                    dp[r][c] = dp[r - 1][c - 1];
+                }
+            }
+        }
+
+        return dp[source.length() - 1][target.length() - 1];
+    }
+
     public static int editDistanceMinimumSpace(final String src, final String dest) {
         final String emptyPaddedSrc = " " + src;
         final String emptyPaddedDest = " " + dest;

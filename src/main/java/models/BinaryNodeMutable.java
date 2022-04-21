@@ -2,6 +2,7 @@ package models;
 
 public class BinaryNodeMutable {
     final int id;
+    int value;
     BinaryNodeMutable left;
     BinaryNodeMutable right;
 
@@ -27,5 +28,13 @@ public class BinaryNodeMutable {
 
     public void setRight(final BinaryNodeMutable right) {
         this.right = right;
+    }
+
+    public int getValue() {
+        return value;
+    }
+
+    public void setValue(final int value) {
+        this.value = value;
     }
 }
