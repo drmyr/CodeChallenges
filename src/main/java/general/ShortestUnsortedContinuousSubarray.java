@@ -66,6 +66,6 @@ public class ShortestUnsortedContinuousSubarray {
             }
         }
 
-        return endOutOfOrderIndex - startOutOfOrderIndex + 1; // +1 because the range is inclusive of the start
+        return endOutOfOrderIndex - startOutOfOrderIndex + 1; // +1 because the range is inclusive of the end
     }
 }
