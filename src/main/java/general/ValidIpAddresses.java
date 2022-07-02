@@ -1,25 +1,24 @@
 package general;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ValidIpAddresses {
 
-    public ArrayList<String> validIPAddresses(String string) {
-        if(string.length() < 4) return new ArrayList<>();
+    public List<String> validIPAddresses(final String string) {
+        final List<String> result = new ArrayList<>();
 
-        ArrayList<String> result = new ArrayList<>();
+        if(string.length() < 4) return result;
 
-        int firstDot = 0;
-        int secondDot = 1;
-        int thirdDot = 2;
+        int firstDot = 0, secondDot = 1, thirdDot = 2;
         while(firstDot < string.length() - 3) {
-            String firstOctet = string.substring(0, firstDot + 1);
-            String secondOctet = string.substring(firstDot + 1, secondDot + 1);
-            String thirdOctet = string.substring(secondDot + 1, thirdDot + 1);
-            String fourthOctet = string.substring(thirdDot + 1, string.length());
-            String ip = firstOctet + "." + secondOctet + "." + thirdOctet + "." + fourthOctet;
+            final String firstOctet = string.substring(0, firstDot + 1);
+            final String secondOctet = string.substring(firstDot + 1, secondDot + 1);
+            final String thirdOctet = string.substring(secondDot + 1, thirdDot + 1);
+            final String fourthOctet = string.substring(thirdDot + 1);
+            final String ip = firstOctet + "." + secondOctet + "." + thirdOctet + "." + fourthOctet;
 
-            if(acceptable(firstOctet) && acceptable(secondOctet) && acceptable(thirdOctet) && acceptable(fourthOctet)) {
+            if(isValidOctet(firstOctet) && isValidOctet(secondOctet) && isValidOctet(thirdOctet) && isValidOctet(fourthOctet)) {
                 result.add(ip);
             }
 
@@ -38,14 +37,10 @@ public class ValidIpAddresses {
         return result;
     }
 
-    private boolean acceptable(String octet) {
-        int asInt = Integer.valueOf(octet);
+    private boolean isValidOctet(final String octet) {
         if(octet.charAt(0) == '0' && octet.length() > 1) {
             return false;
         }
-        if(asInt > 255) {
-            return false;
-        }
-        return true;
+        return Integer.parseInt(octet) < 256;
     }
 }
