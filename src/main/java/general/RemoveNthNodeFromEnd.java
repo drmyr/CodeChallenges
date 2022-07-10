@@ -16,6 +16,31 @@ public class RemoveNthNodeFromEnd {
         ListNode(int val, ListNode next) { this.val = val; this.next = next; }
     }
 
+    public static void removeKthNodeFromEnd(final ListNode head, final int k) {
+        int lead = 0;
+        ListNode leadNode = head;
+        while(lead < k) {
+            System.out.println(leadNode.val + ", " + lead);
+            if(leadNode.next == null) {
+                head.val = head.next.val;
+                head.next = head.next.next;
+                return;
+            }
+            leadNode = leadNode.next;
+            lead++;
+        }
+
+        leadNode = leadNode.next;
+
+        ListNode followNode = head;
+        while(leadNode != null) {
+            leadNode = leadNode.next;
+            followNode = followNode.next;
+        }
+
+        followNode.next = followNode.next.next;
+    }
+
     public static ListNode removeNthFromEnd(final ListNode head, final int n) {
         final Map<Integer, ListNode> map = new HashMap<>();
 
