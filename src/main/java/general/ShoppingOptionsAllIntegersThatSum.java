@@ -7,7 +7,6 @@ import java.util.List;
 public class ShoppingOptionsAllIntegersThatSum {
 
     public static List<List<Integer>> getAllIntegersThatSumToTarget(final int target) {
-        final int stoppingPoint = target / 2;
         final List<List<Integer>> result = new ArrayList<>();
         rec(result, 0, target, 1);
         for(var entry : result) {
@@ -16,7 +15,7 @@ public class ShoppingOptionsAllIntegersThatSum {
         return result;
     }
 
-    public static void rec(final List<List<Integer>> result, final int current, final int target, final int step) {
+    private static void rec(final List<List<Integer>> result, final int current, final int target, final int step) {
         if(current < target - step) {
             final List<Integer> list = new ArrayList<>();
             for(int i = 0; i < current; i += step) list.add(step);
