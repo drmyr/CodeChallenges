@@ -25,7 +25,7 @@ public class ShoppingOptionsAllIntegersThatSum {
      * 1, 1, 1, 1, 1
      *
      * The output will be in the form a list of lists or an array of arrays. Each element in the list will be another list containing a possible sum combination.
-     * 
+     *
      * @param target
      * @return
      */
