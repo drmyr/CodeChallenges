@@ -1,7 +1,11 @@
 package general;
 
 import java.util.Arrays;
+import java.util.List;
+import java.util.function.BiFunction;
 import java.util.function.Function;
+
+import static java.util.stream.Collectors.toList;
 
 public class StorageOptimization {
 
@@ -31,5 +35,22 @@ public class StorageOptimization {
             return longest + 1;
         };
         return longestRun.apply(colRemovals) * longestRun.apply(rowRemovals);
+    }
+
+    public static int largestCake(final int height, final int width, final int[] horizontalCuts, final int[] verticalCuts) {
+        final BiFunction<Integer, int[], Integer> maxSpan = (end, cuts) -> {
+            final List<Integer> spans = Arrays.stream(cuts).sorted().boxed().collect(toList());
+            spans.add(0, 0);
+            spans.add(end);
+
+            int max = 0;
+            for(int i = 1; i < spans.size(); i++) {
+                max = Math.max(max, spans.get(i) - spans.get(i - 1));
+            }
+
+            return max;
+        };
+
+        return maxSpan.apply(width, verticalCuts) * maxSpan.apply(height, horizontalCuts);
     }
 }

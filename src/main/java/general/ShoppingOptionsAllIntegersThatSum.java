@@ -32,7 +32,7 @@ public class ShoppingOptionsAllIntegersThatSum {
     public static List<List<Integer>> getAllIntegersThatSumToTarget(final int target) {
         final List<List<Integer>> result = new ArrayList<>();
         rec(result, 0, target, 1);
-        for(var entry : result) {
+        for(final var entry : result) {
             System.out.println(Arrays.toString(entry.toArray()));
         }
         return result;
