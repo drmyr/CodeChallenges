@@ -1,11 +1,10 @@
-package monotonicqueue;
+package monotonics;
 
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 
-import static monotonicqueue.SunsetView.sunsetViews;
-import static org.junit.jupiter.api.Assertions.*;
+import static monotonics.SunsetView.sunsetViews;
 
 class SunsetViewTest {
 

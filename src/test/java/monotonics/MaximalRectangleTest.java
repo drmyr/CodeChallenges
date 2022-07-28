@@ -1,11 +1,11 @@
-package monotonicqueue;
+package monotonics;
 
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
-import static monotonicqueue.MaximalRectangle.largestAreaOfHistogramMonotonicQueue;
-import static monotonicqueue.MaximalRectangle.maximalRectangle;
+import static monotonics.MaximalRectangle.largestAreaOfHistogramMonotonicQueue;
+import static monotonics.MaximalRectangle.maximalRectangle;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;

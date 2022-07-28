@@ -1,4 +1,4 @@
-package monotonicqueue;
+package monotonics;
 
 import models.BiDirectionalIterator;
 
