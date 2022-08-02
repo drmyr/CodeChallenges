@@ -7,7 +7,7 @@ public class DecodeString {
     /**
      * https://leetcode.com/problems/decode-string/
      */
-    public String decodeString(final String s) {
+    public static String decodeString(final String s) {
         final Stack<StringBuilder> letters = new Stack<>();
         letters.push(new StringBuilder());
         final Stack<Integer> mult = new Stack<>();
