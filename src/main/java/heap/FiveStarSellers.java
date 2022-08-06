@@ -59,4 +59,35 @@ public class FiveStarSellers {
 
         return additionalReviewsCount;
     }
+
+    public double maxAverageRatio(final int[][] classes, final int extraStudents) {
+        PriorityQueue<int[]> heap = new PriorityQueue<>(Comparator.comparing((final int[] arr) -> {
+            final double curr = (((double)arr[0]) / ((double)arr[1]));
+            final double gain = ((double)(arr[0] + 1) / (double)(arr[1] + 1));
+            return gain - curr;
+        }).reversed());
+
+        double currentAvg = 0d;
+        for(final int[] rating : classes) {
+            heap.offer(rating);
+            currentAvg += (((double)rating[0]) / ((double)rating[1]));
+        }
+
+        int studentsRemaining = extraStudents;
+        while(studentsRemaining > 0) {
+            final int[] rating = heap.poll();
+
+            currentAvg -= (((double)rating[0]) / ((double)rating[1]));
+
+            rating[0]++;
+            rating[1]++;
+
+            currentAvg += (((double)rating[0]) / ((double)rating[1]));
+
+            heap.offer(rating);
+            studentsRemaining--;
+        }
+
+        return currentAvg / ((double)classes.length);
+    }
 }
