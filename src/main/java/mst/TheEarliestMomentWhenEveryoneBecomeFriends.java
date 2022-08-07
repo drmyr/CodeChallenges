@@ -27,8 +27,13 @@ public class TheEarliestMomentWhenEveryoneBecomeFriends {
                 disjointSetMap.get(logs[i][1]).add(logs[i][2]);
                 disjointSetMap.put(logs[i][2], disjointSetMap.get(logs[i][1]));
             } else {
+                final Set<Integer> needUpdate = disjointSetMap.get(logs[i][2]);
                 disjointSetMap.get(logs[i][1]).addAll(disjointSetMap.get(logs[i][2]));
                 disjointSetMap.put(logs[i][2], disjointSetMap.get(logs[i][1]));
+
+                for(final Integer update : needUpdate) {
+                    disjointSetMap.put(update, disjointSetMap.get(logs[i][1]));
+                }
             }
 
             if(disjointSetMap.get(logs[i][1]).size() == members) {
