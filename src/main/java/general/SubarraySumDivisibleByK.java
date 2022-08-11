@@ -2,7 +2,7 @@ package general;
 
 public class SubarraySumDivisibleByK {
 
-    public int subarraysDivByK(int[] nums, int k) {
+    public int subarrayDivByK(int[] nums, int k) {
 
         int counter = 0;
 
@@ -21,4 +21,6 @@ public class SubarraySumDivisibleByK {
 
         return counter;
     }
+
+
 }

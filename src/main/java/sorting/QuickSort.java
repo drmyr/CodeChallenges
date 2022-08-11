@@ -42,4 +42,40 @@ public class QuickSort {
 
         return properlySortedPosition;
     }
+
+    public static int[] quickSortOther(final int[] array) {
+        quickSortRec(array, 0, array.length - 1);
+        return array;
+    }
+
+    private static void quickSortRec(final int[] array, final int pivot, final int end) {
+        if(pivot >= end) {
+            return;
+        }
+
+        int left = pivot + 1;
+        int right = end;
+
+        while(left <= right) {
+            if(array[left] > array[pivot] && array[right] < array[pivot]) {
+                swap(left, right, array);
+            }
+            if(array[left] <= array[pivot]) {
+                left++;
+            }
+            if(array[right] >= array[pivot]) {
+                right--;
+            }
+        }
+        swap(pivot, right, array);
+        quickSortRec(array, pivot, right - 1);
+        quickSortRec(array, right + 1, end);
+    }
+
+    private static void swap(final int left, final int right, final int[] array) {
+        final int temp = array[left];
+        array[left] = array[right];
+        array[right] = temp;
+    }
+
 }

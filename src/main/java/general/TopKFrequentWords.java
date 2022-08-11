@@ -1,6 +1,7 @@
 package general;
 
 import java.util.*;
+import java.util.function.Function;
 
 import static java.util.Comparator.comparingInt;
 
@@ -40,5 +41,32 @@ public class TopKFrequentWords {
         meetsThreshold.sort(comparingInt((final String word) -> wordFrequencyAndReviewCount.get(word).count)
                 .thenComparing((final String word) -> wordFrequencyAndReviewCount.get(word).reviews.size()));
         return new HashSet<>(meetsThreshold);
+    }
+
+    public List<String> topKFrequent(final String[] words, final int k) {
+        final Map<String, Integer> freqMap = new HashMap<>();
+        for(final String word : words) freqMap.merge(word, 1, Integer::sum);
+
+        final PriorityQueue<String> kFreq = new PriorityQueue<>(Comparator.comparing(Function.identity(), (o1, o2) -> {
+            final int diff = freqMap.get(o1) - freqMap.get(o2);
+            if(diff == 0) {
+                return o1.compareTo(o2);
+            } else if(diff > 0) {
+                return -1;
+            } else {
+                return 1;
+            }
+        }));
+
+        for(final String word : freqMap.keySet()) kFreq.offer(word);
+
+        final List<String> result = new ArrayList<>();
+        int remaining = k;
+        while(remaining > 0) {
+            result.add(kFreq.poll());
+            remaining--;
+        }
+
+        return result;
     }
 }
