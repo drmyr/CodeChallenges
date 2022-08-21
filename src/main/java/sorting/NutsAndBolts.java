@@ -1,6 +1,7 @@
 package sorting;
 
 import java.util.ArrayDeque;
+import java.util.Arrays;
 import java.util.Deque;
 
 public class NutsAndBolts {
@@ -64,4 +65,55 @@ public class NutsAndBolts {
 
         return follower + 1;
     }
+
+    /**
+     * Nuts represented as array of character
+     * char nuts[] = {‘@’, ‘#’, ‘$’, ‘%’, ‘^’, ‘&’}
+     * Bolts represented as array of character
+     * char bolts[] = {‘$’, ‘%’, ‘&’, ‘^’, ‘@’, ‘#’}
+     * @param nuts
+     * @param bolts
+     * @return
+     */
+    public static void nutsAndBolts(final Integer[] nuts, final Integer[] bolts) {
+        nutsAndBoltsRecursive(nuts, bolts, 0, nuts.length - 1);
+    }
+
+    public static void nutsAndBoltsRecursive(final Integer[] nuts, final Integer[] bolts, final int low, final int high) {
+        if(low >= high) {
+            return;
+        }
+
+        final int partition = partitionTwo(nuts, low, high, bolts[low]);
+        partitionTwo(bolts, low, high, nuts[partition]);
+        nutsAndBoltsRecursive(nuts, bolts, low, partition - 1);
+        nutsAndBoltsRecursive(nuts, bolts, partition + 1, high);
+    }
+
+    private static int partitionTwo(final Integer[] collection, final int low, final int high, final int pivot) {
+        int follow = low, lead = low;
+
+        while (lead < high) {
+            if (collection[lead] < pivot) {
+                swap(collection, follow, lead);
+                follow++;
+            } else if (collection[lead] == pivot) {
+                swap(collection, lead, high);
+                lead--;
+            }
+
+            lead++;
+        }
+
+        swap(collection, follow, high);
+
+        return follow;
+    }
+
+    private static void swap(final Integer[] collection, final int left, final int right) {
+        final int temp = collection[left];
+        collection[left] = collection[right];
+        collection[right] = temp;
+    }
+
 }
