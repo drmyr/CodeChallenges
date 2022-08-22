@@ -45,9 +45,8 @@ public class MaxHeap {
         this.heap.set(0, this.heap.get(this.heap.size() - 1));
         this.heap.remove(this.heap.size() - 1);
 
-        int i = 0;
-        while((2 * i) + 1 < this.heap.size()) {
-            final int leftChildIdx = (2 * i) + 1;
+        int i = 0, leftChildIdx;
+        while((leftChildIdx = (2 * i) + 1) < this.heap.size()) {
             int largestChildIdx = leftChildIdx;
             final int rightChildIdx = (2 * i) + 2;
             if(rightChildIdx < this.heap.size()) {

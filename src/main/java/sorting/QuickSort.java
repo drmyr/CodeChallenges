@@ -78,4 +78,35 @@ public class QuickSort {
         array[right] = temp;
     }
 
+
+    public static int[] quickSortThree(final int[] array) {
+        quickSortThreeRec(array, 0, array.length - 1);
+        return array;
+    }
+
+    private static void quickSortThreeRec(final int[] array, final int low, final int high) {
+        if(low >= high) {
+            return;
+        }
+
+        final int partition = quickSortLeaderFollower(array, low, high);
+        quickSortThreeRec(array, low, partition - 1);
+        quickSortThreeRec(array, partition + 1, high);
+    }
+
+    private static int quickSortLeaderFollower(final int[] array, final int low, final int high) {
+        final int pivot = array[high];
+        int follow = low, leader = low;
+
+        while(leader < high) {
+            if(array[leader] <= pivot) {
+                swap(follow, leader, array);
+                follow++;
+            }
+            leader++;
+        }
+        swap(follow, high, array);
+        return follow;
+    }
+
 }
