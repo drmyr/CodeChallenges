@@ -12,5 +12,7 @@ class ZigzagConversionTest {
     @Test
     void convertTest() {
         assertThat("PAHNAPLSIIGYIR", is(equalTo(convert("PAYPALISHIRING", 3))));
+        assertThat("PINALSIGYAHRPI", is(equalTo(convert("PAYPALISHIRING", 4))));
     }
+
 }

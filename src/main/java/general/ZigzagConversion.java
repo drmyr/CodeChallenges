@@ -1,5 +1,8 @@
 package general;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ZigzagConversion {
 
     /**
@@ -34,6 +37,29 @@ public class ZigzagConversion {
      * P     I
      */
     public static String convert(final String s, final int numRows) {
-        throw new UnsupportedOperationException("ZigzagConversion.convert");
+        final List<StringBuilder> stringBuilderList = new ArrayList<>();
+        for(int i = 0; i < numRows; i++) stringBuilderList.add(new StringBuilder());
+
+        boolean direction = true; //true = down, false = up;
+        int rowIdx = 0;
+        for(int i = 0; i < s.length(); i++) {
+            stringBuilderList.get(rowIdx).append(s.charAt(i));
+            if(direction) {
+                if(rowIdx < numRows - 1) {
+                    rowIdx++;
+                } else {
+                    direction = false;
+                    rowIdx--;
+                }
+            } else {
+                if(rowIdx > 0) {
+                    rowIdx--;
+                } else {
+                    direction = true;
+                    rowIdx++;
+                }
+            }
+        }
+        return stringBuilderList.stream().reduce(new StringBuilder(), (sb1, sb2) -> { sb1.append(sb2); return sb1; }).toString();
     }
 }
