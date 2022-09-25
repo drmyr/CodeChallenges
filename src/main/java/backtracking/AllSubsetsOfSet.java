@@ -6,7 +6,7 @@ import java.util.Set;
 public class AllSubsetsOfSet {
 
     /**
-     * Page 233 of Skiena- The Algorithm Design Manual
+     * Page 233 of Skiena - The Algorithm Design Manual
      * Generates all substrings of a string.
      *
      * Generating all subsets is a 2^(n) operation.
